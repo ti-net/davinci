@@ -20,8 +20,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<skipTests>true</skipTests>
-		<lucene.version>6.4.2</lucene.version>
-		<elasticsearch.version>5.1.2</elasticsearch.version>
+		<lucene.version>7.7.0</lucene.version>
+		<elasticsearch.version>6.7.2</elasticsearch.version>
 	</properties>
 
 	<repositories>
@@ -230,11 +230,11 @@
 
 		<!-- elasticsearch -->
 		<dependency>
-			<groupId>org.nlpcn</groupId>
-			<artifactId>elasticsearch-sql</artifactId>
-			<version>5.1.2.0</version>
+			<groupId>com.amazon.opendistroforelasticsearch.client</groupId>
+			<artifactId>opendistro-sql-jdbc</artifactId>
+			<version>1.6.0.0</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/davinci-elasticsearch-sql-5.1.2.jar</systemPath>
+			<systemPath>${project.basedir}/lib/opendistro-sql-jdbc-1.6.0.0.jar</systemPath>
 		</dependency>
 
 		<dependency>
@@ -261,7 +261,7 @@
 		<dependency>
 			<groupId>org.elasticsearch.client</groupId>
 			<artifactId>x-pack-transport</artifactId>
-			<version>${elasticsearch.version}</version>
+			<version>6.7.2</version>
 			<scope>provided</scope>
 		</dependency>
 
