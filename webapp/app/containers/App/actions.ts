@@ -53,7 +53,8 @@ import {
   DOWNLOAD_FILE_SUCCESS,
   INITIATE_DOWNLOAD_TASK,
   INITIATE_DOWNLOAD_TASK_SUCCESS,
-  INITIATE_DOWNLOAD_TASK_FAILURE
+  INITIATE_DOWNLOAD_TASK_FAILURE,
+  GET_USER_INFO
 } from './constants'
 
 export function getExternalAuthProviders () {
@@ -91,6 +92,17 @@ export function login (username, password, resolve) {
     payload: {
       username,
       password,
+      resolve
+    }
+  }
+}
+
+export function getUserInfo(token, id, resolve) {
+  return {
+    type: GET_USER_INFO,
+    payload: {
+      token,
+      id,
       resolve
     }
   }

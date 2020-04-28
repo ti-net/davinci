@@ -27,6 +27,7 @@ export default {
   tryExternalAuth: `${host}/login/externalLogin`,
   externalLogout: `/login/oauth2/logout`,
   login: `${host}/login`,
+  getuserinfo: `${host}/tinet/getUserById/`,
   group: `${host}/groups`,
   user: `${host}/users`,
   changepwd: `${host}/changepwd`,
