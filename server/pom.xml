@@ -261,8 +261,8 @@
 		<dependency>
 			<groupId>org.elasticsearch.client</groupId>
 			<artifactId>x-pack-transport</artifactId>
-			<version>6.7.2</version>
-			<scope>provided</scope>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/x-pack-transport-6.7.2.jar</systemPath>
 		</dependency>
 
         <dependency>
