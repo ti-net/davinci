@@ -19,18 +19,21 @@
  */
 
 import React from 'react'
+import { areComponentsEqual } from 'react-hot-loader'
+
 import { uuid } from 'utils/util'
 import { IViewVariable } from '../types'
 import { Resizable, ResizeCallbackData } from 'libs/react-resizable'
 
-import { ISqlEditorProps } from './SqlEditorByAce'
-import { IViewVariableListProps } from './ViewVariableList'
-import { IVariableModalProps } from './VariableModal'
-import { ISqlPreviewProps } from './SqlPreview'
+import SourceTable from './SourceTable'
+import SqlEditor from './SqlEditor'
+import ViewVariableList, { IViewVariableListProps } from './ViewVariableList'
+import VariableModal, { IVariableModalProps } from './VariableModal'
+import SqlPreview, { ISqlPreviewProps } from './SqlPreview'
+import EditorBottom from './EditorBottom'
 
 import Styles from '../View.less'
 
-type TEditorSubComponents = 'SourceTable' | 'SqlEditor' | 'ViewVariableList' | 'VariableModal' | 'SqlPreview' | 'EditorBottom'
 interface IEditorContainerProps {
   visible: boolean
   variable: IViewVariable[]
@@ -69,6 +72,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
       editorHeight
     })
   }
+
   public componentWillUnmount () {
     window.removeEventListener('resize', this.setEditorHeight, false)
   }
@@ -144,36 +148,45 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
   }
 
   private getChildren = (props: IEditorContainerProps, state: IEditorContainerStates) => {
-    const obj = {}
-    React.Children.forEach(props.children, (child: React.ReactElement<any>) => {
-      const name = child.key as TEditorSubComponents
-      if (name === 'ViewVariableList') {
-        obj[name] = React.cloneElement<IViewVariableListProps>(child, {
+    let sourceTable: React.ReactElement<any>
+    let sqlEditor: React.ReactElement<any>
+    let sqlPreview: React.ReactElement<ISqlPreviewProps>
+    let editorBottom: React.ReactElement<any>
+    let viewVariableList: React.ReactElement<IViewVariableListProps>
+    let variableModal: React.ReactElement<IVariableModalProps>
+
+    React.Children.forEach(props.children, (child) => {
+      const c = child as React.ReactElement<any>
+      const type = c.type as React.ComponentClass<any>
+      if (areComponentsEqual(type, SourceTable)) {
+        sourceTable = c
+      } else if (areComponentsEqual(type, SqlEditor)) {
+        sqlEditor = c
+      } else if (areComponentsEqual(type, SqlPreview)) {
+        const { previewHeight } = state
+        sqlPreview = React.cloneElement<ISqlPreviewProps>(c, { height: previewHeight })
+      } else if (areComponentsEqual(type, EditorBottom)) {
+        editorBottom = c
+      } else if (areComponentsEqual(type, ViewVariableList)) {
+        viewVariableList = React.cloneElement<IViewVariableListProps>(c, {
           className: Styles.viewVariable,
           onAdd: this.addVariable,
           onDelete: this.deleteVariable,
           onEdit: this.editVariable
         })
-      } else if (name === 'VariableModal') {
+      } else if (areComponentsEqual(type, VariableModal)) {
         const { variableModalVisible, editingVariable } = this.state
-        obj[name] = React.cloneElement<IVariableModalProps>(child, {
+        variableModal = React.cloneElement<IVariableModalProps>(c, {
           visible: variableModalVisible,
           variable: editingVariable,
           nameValidator: this.variableNameValidate,
           onCancel: this.closeVariableModal,
           onSave: this.saveVariable
         })
-      } else if (name === 'SqlPreview') {
-        const { previewHeight } = state
-        obj[name] = React.cloneElement<ISqlPreviewProps>(child, { height: previewHeight })
-      } else if (name === 'SqlEditor') {
-        const { previewHeight } = state
-        obj[name] = React.cloneElement<ISqlEditorProps>(child, { sizeChanged: previewHeight })
-      } else {
-        obj[name] = child
       }
     })
-    return obj as Record<TEditorSubComponents, React.ReactElement<any>>
+
+    return { sourceTable, sqlEditor, sqlPreview, editorBottom, viewVariableList, variableModal }
   }
 
   public render () {
@@ -181,7 +194,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
     const {
       editorHeight, siderWidth, previewHeight } = this.state
     const style = visible ? {} : { display: 'none' }
-    const { SourceTable, SqlEditor, SqlPreview, EditorBottom, ViewVariableList, VariableModal } = this.getChildren(this.props, this.state)
+    const { sourceTable, sqlEditor, sqlPreview, editorBottom, viewVariableList, variableModal } = this.getChildren(this.props, this.state)
 
     return (
       <>
@@ -195,7 +208,7 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
               maxConstraints={[EditorContainer.SiderMinWidth * 2, 0]}
               onResize={this.siderResize}
             >
-              <div>{SourceTable}</div>
+              <div>{sourceTable}</div>
             </Resizable>
           </div>
           <div className={Styles.containerHorizontal}>
@@ -210,19 +223,19 @@ export class EditorContainer extends React.Component<IEditorContainerProps, IEdi
                   onResize={this.previewResize}
                 >
                   <div className={Styles.containerVertical}>
-                    {SqlEditor}
-                    {ViewVariableList}
+                    {sqlEditor}
+                    {viewVariableList}
                   </div>
                 </Resizable>
               </div>
-              <div className={Styles.preview} style={{ height: previewHeight }}>
-                {SqlPreview}
+              <div className={Styles.preview} style={{height: previewHeight}}>
+                  {sqlPreview}
               </div>
             </div>
-            {EditorBottom}
+            {editorBottom}
           </div>
         </div>
-        {VariableModal}
+        {variableModal}
       </>
     )
   }

@@ -20,9 +20,9 @@
 
 import { Icon } from 'antd'
 
+require('assets/fonts/iconfont.js')
+require('assets/fonts-new/iconfont.js')
 // use icons from iconfont.cn
 // https://ant.design/components/icon-cn/#components-icon-demo-iconfont
 
-export default Icon.createFromIconfontCN({
-  scriptUrl: require('assets/fonts/iconfont.js')
-})
+export default Icon.createFromIconfontCN()

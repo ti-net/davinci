@@ -35,8 +35,7 @@ import {
   INITIATE_DOWNLOAD_TASK,
   GET_EXTERNAL_AUTH_PROVIDERS,
   TRY_EXTERNAL_AUTH,
-  EXTERNAL_AUTH_LOGOUT,
-  GET_USER_INFO
+  EXTERNAL_AUTH_LOGOUT
 } from './constants'
 import {
   logged,
@@ -110,23 +109,6 @@ export function* login (action): IterableIterator<any> {
   } catch (err) {
     yield put(loginError())
     errorHandler(err)
-  }
-}
-
-export function* getuserinfo(action): IterableIterator<any> {
-  const { token, id, resolve } = action.payload;
-
-  try{
-    console.log('info:' + token, id);
-    const asyncData = yield call(request, {
-      method: 'get',
-      url: api.getuserinfo + id,
-    })
-    // const loginUser = asyncData.payload;
-    // localStorage.setItem('loginUser', JSON.stringify(loginUser));
-    resolve(asyncData);
-  } catch(err) {
-    console.log(err);
   }
 }
 
@@ -369,14 +351,13 @@ export default function* rootGroupSaga (): IterableIterator<any> {
     takeLatest(TRY_EXTERNAL_AUTH, tryExternalAuth as any),
     takeLatest(EXTERNAL_AUTH_LOGOUT, externalAuthlogout as any),
     takeLatest(LOGIN, login as any),
-    takeLatest(GET_USER_INFO, getuserinfo as any),
     takeLatest(LOGOUT, logout),
     takeLatest(UPDATE_PROFILE, updateProfile as any),
     takeLatest(CHANGE_USER_PASSWORD, changeUserPassword as any),
     takeLatest(JOIN_ORGANIZATION, joinOrganization as any),
     takeLatest(LOAD_DOWNLOAD_LIST, getDownloadList),
     takeLatest(DOWNLOAD_FILE, downloadFile),
-    takeEvery(INITIATE_DOWNLOAD_TASK, initiateDownloadTask),
+    takeEvery(INITIATE_DOWNLOAD_TASK, initiateDownloadTask)
   ])
 }
 

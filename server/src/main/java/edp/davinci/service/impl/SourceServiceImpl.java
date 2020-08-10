@@ -22,7 +22,6 @@ package edp.davinci.service.impl;
 import static edp.core.consts.Consts.JDBC_DATASOURCE_DEFAULT_VERSION;
 import static edp.davinci.core.common.Constants.DAVINCI_TOPIC_CHANNEL;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -817,7 +816,7 @@ public class SourceServiceImpl extends BaseEntityService implements SourceServic
 				}
 			}
 
-			ExecutorService executorService = Executors.newFixedThreadPool(totalPage > 8 ? 8 : totalPage);
+			ExecutorService executorService = Executors.newFixedThreadPool(8);
 
 			STGroup stg = new STGroupFile(Constants.SQL_TEMPLATE);
 			ST st = stg.getInstanceOf("insertData");
@@ -825,7 +824,7 @@ public class SourceServiceImpl extends BaseEntityService implements SourceServic
 			st.add("columns", headers);
 			String sql = st.render();
 			log.info("sql : {}", st.render());
-			List<Future> futures = new ArrayList<>();
+			Future future = null;
 
 			// 分页批量插入
 			long startTime = System.currentTimeMillis();
@@ -833,25 +832,26 @@ public class SourceServiceImpl extends BaseEntityService implements SourceServic
 			for (int pageNum = 1; pageNum < totalPage + 1; pageNum++) {
 				int localPageNum = pageNum;
 				int localPageSize = pageSize;
-				futures.add(executorService.submit(() -> {
+				future = executorService.submit(() -> {
 					int starNum = (localPageNum - 1) * localPageSize;
 					int endNum = localPageNum * localPageSize > totalSize ? (totalSize) : localPageNum * localPageSize;
 					log.info("executeInsert thread-{} : start:{}, end:{}", localPageNum, starNum, endNum);
 					sqlUtils.executeBatch(sql, headers, values.subList(starNum, endNum));
-				}));
+				});
 			}
 
 			try {
-				for (Future future : futures) {
-					future.get();
-				}
+				future.get();
 				long endTime = System.currentTimeMillis();
 				log.info("execute insert end ---- {}", DateUtils.toyyyyMMddHHmmss(endTime));
 				log.info("execution time {} second", (endTime - startTime) / 1000);
-			} catch (InterruptedException | ExecutionException e) {
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 				throw new ServerException(e.getMessage());
-			}finally {
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+				throw new ServerException(e.getMessage());
+			} finally {
 				executorService.shutdown();
 			}
 		}

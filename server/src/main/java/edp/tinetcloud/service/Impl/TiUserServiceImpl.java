@@ -150,7 +150,7 @@ public class TiUserServiceImpl extends BaseEntityService implements TiUserServic
                 log.info("regist fail: {}", userRegist.toString());
                 throw new ServerException("regist fail: unspecified error");
             }
-            //添加成功，发送激活邮件
+            //添加成功，
             if (user.getId() > 0) {
                 // 用户激活，关联操作
                 activeUser(user);

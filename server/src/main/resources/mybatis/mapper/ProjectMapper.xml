@@ -21,6 +21,66 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="edp.davinci.dao.ProjectMapper">
 
+    <resultMap id="ProjectWithCreateByResultMap" type="edp.davinci.dto.projectDto.ProjectWithCreateBy">
+        <id column="id" property="id" />
+        <result column="isStar" property="isStar" />
+        <result column="createBy.id" property="createBy.id" />
+        <result column="createBy.username" property="createBy.username" />
+        <result column="createBy.avatar" property="createBy.avatar" />
+
+        <result column="name" property="name" />
+        <result column="description" property="description" />
+        <result column="pic" property="pic" />
+        <result column="org_id" property="orgId" />
+        <result column="user_id" property="userId" />
+        <result column="star_num" property="starNum" />
+        <result column="visibility" property="visibility" />
+        <result column="is_transfer" property="isTransfer" />
+        <result column="initial_org_id" property="initialOrgId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+
+        <result property="config" column="config" typeHandler="edp.davinci.handler.JsonTypeHandler"/>
+    </resultMap>
+
+    <resultMap id="ProjectDetailResultMap" type="edp.davinci.dto.projectDto.ProjectDetail">
+        <id column="id" property="id" />
+        <result column="createBy.id" property="createBy.id" />
+        <result column="createBy.username" property="createBy.username" />
+        <result column="createBy.avatar" property="createBy.avatar" />
+
+        <result column="organization.name" property="organization.name" />
+        <result column="organization.description" property="organization.description" />
+        <result column="organization.avatar" property="organization.avatar" />
+        <result column="organization.userId" property="organization.userId" />
+        <result column="organization.projectNum" property="organization.projectNum" />
+        <result column="organization.memberNum" property="organization.memberNum" />
+        <result column="organization.roleNum" property="organization.roleNum" />
+        <result column="organization.allowCreateProject" property="organization.allowCreateProject" />
+        <result column="organization.memberPermission" property="organization.memberPermission" />
+        <result column="organization.createTime" property="organization.createTime" />
+        <result column="organization.createBy" property="organization.createBy" />
+        <result column="organization.updateTime" property="organization.updateTime" />
+        <result column="organization.updateBy" property="organization.updateBy" />
+
+        <result column="name" property="name" />
+        <result column="description" property="description" />
+        <result column="pic" property="pic" />
+        <result column="org_id" property="orgId" />
+        <result column="user_id" property="userId" />
+        <result column="star_num" property="starNum" />
+        <result column="visibility" property="visibility" />
+        <result column="is_transfer" property="isTransfer" />
+        <result column="initial_org_id" property="initialOrgId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="create_user_id" property="createUserId" />
+
+        <result property="config" column="config" typeHandler="edp.davinci.handler.JsonTypeHandler"/>
+    </resultMap>
+
     <insert id="insert" parameterType="edp.davinci.model.Project">
         <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS id
@@ -196,7 +256,7 @@
     </select>
 
 
-    <select id="getProjectsByOrgWithUser" resultType="edp.davinci.dto.projectDto.ProjectWithCreateBy">
+    <select id="getProjectsByOrgWithUser" resultMap="ProjectWithCreateByResultMap">
         <include refid="selectProjectByUserBaseSql"></include>
         <if test="orgId != null">
             and p.org_id = #{orgId}
@@ -238,7 +298,7 @@
            or (ruo.user_id = #{userId} and ruo.role > 0)
     </select>
 
-    <select id="getProjectDetail" resultType="edp.davinci.dto.projectDto.ProjectDetail">
+    <select id="getProjectDetail" resultMap="ProjectDetailResultMap">
         SELECT p.*,
                u.`id`                                       AS 'createBy.id',
                IF(u.`name` is NULL, u.`username`, u.`name`) AS 'createBy.username',
@@ -250,7 +310,7 @@
                o.`user_id`                                  AS 'organization.userId',
                o.`project_num`                              AS 'organization.projectNum',
                o.`member_num`                               AS 'organization.memberNum',
-               o.`role_num`                                 AS 'organization.teamNum',
+               o.`role_num`                                 AS 'organization.role_num',
                o.`allow_create_project`                     AS 'organization.allowCreateProject',
                o.`member_permission`                        AS 'organization.memberPermission',
                o.`create_time`                              AS 'organization.createTime',
@@ -261,6 +321,35 @@
                  LEFT JOIN organization o on o.`id` = p.`org_id`
                  LEFT JOIN `user` u on u.`id` = p.`user_id`
         WHERE p.`id` = #{id}
+    </select>
+
+    <select id="getProjectDetailByDashboardId" resultMap="ProjectDetailResultMap">
+        SELECT p.*,
+               p.create_by                                  as 'create_user_id',
+               u.`id`                                       AS 'createBy.id',
+               IF(u.`name` is NULL, u.`username`, u.`name`) AS 'createBy.username',
+               u.`avatar`                                   AS 'createBy.avatar',
+               o.`id`                                       AS 'organization.id',
+               o.`name`                                     AS 'organization.name',
+               o.`description`                              AS 'organization.description',
+               o.`avatar`                                   AS 'organization.avatar',
+               o.`user_id`                                  AS 'organization.userId',
+               o.`project_num`                              AS 'organization.projectNum',
+               o.`member_num`                               AS 'organization.memberNum',
+               o.`role_num`                                 AS 'organization.roleNum',
+               o.`allow_create_project`                     AS 'organization.allowCreateProject',
+               o.`member_permission`                        AS 'organization.memberPermission',
+               o.`create_time`                              AS 'organization.createTime',
+               o.`create_by`                                AS 'organization.createBy',
+               o.`update_time`                              AS 'organization.updateTime',
+               o.`update_by`                                AS 'organization.updateBy'
+        FROM organization o, user u, project p, dashboard_portal dp, dashboard d
+        WHERE o.id = p.org_id
+        and u.id = p.user_id
+        and p.id = dp.project_id
+        and dp.id = d.dashboard_portal_id
+        and  d.id = #{dashboardId}
+
     </select>
 
 </mapper>

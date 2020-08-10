@@ -403,6 +403,10 @@ export class OperatingPanel extends React.Component<IOperatingPanelProps, IOpera
       case ViewModelVisualTypes.GeoCountry:
       case ViewModelVisualTypes.GeoProvince:
       case ViewModelVisualTypes.GeoCity: return 'icon-map'
+      case ViewModelVisualTypes.GeoArea: return 'icon-map'
+      case ViewModelVisualTypes.GeoStreet: return 'icon-map'
+      case ViewModelVisualTypes.Longitude: return 'icon-jingdu'
+      case ViewModelVisualTypes.Dimension: return 'icon-weidu'
       default: return 'icon-categories'
     }
   }

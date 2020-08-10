@@ -1011,6 +1011,7 @@ export class Share extends React.Component<IDashboardProps, IDashboardStates> {
         itemblocks.push((
           <div key={id}>
             <DashboardItem
+              projectInfoShare={dashboard ? dashboard.project : widget.project}
               itemId={id}
               widget={widget}
               widgets={widgets}

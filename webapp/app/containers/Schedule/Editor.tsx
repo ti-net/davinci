@@ -71,8 +71,6 @@ import {
   ICronExpressionPartition,
   IScheduleVizConfigItem
 } from './components/types'
-import { serialize } from 'components/RichText/Serializer'
-import { RichTextNode } from 'app/components/RichText'
 
 import Styles from './Schedule.less'
 import StylesHeader from 'components/EditorHeader/EditorHeader.less'
@@ -255,7 +253,6 @@ const ScheduleEditor: React.FC<ScheduleEditorProps> = (props) => {
           config: { ...value2, contentList: localContentList },
           projectId: +projectId
         }
-        schedule.config.content = serialize(schedule.config.content as RichTextNode[])
         if (editingSchedule.id) {
           schedule.id = editingSchedule.id
           onEditSchedule(schedule, goBack)

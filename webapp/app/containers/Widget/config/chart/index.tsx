@@ -30,6 +30,7 @@ import radar from './radar'
 import sankey from './sankey'
 import parallel from './parallel'
 import map from './map'
+import bmap from './bmap'
 import wordCloud from './wordCloud'
 import waterfall from './waterfall'
 import scorecard from './scorecard'
@@ -50,6 +51,7 @@ const widgetlibs: IChartInfo[] = [
   sankey,
   parallel,
   map,
+  bmap,
   wordCloud,
   waterfall,
   iframe,

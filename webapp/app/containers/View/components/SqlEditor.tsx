@@ -39,7 +39,6 @@ interface ISqlEditorProps {
   }
   value: string
   onSqlChange: (sql: string) => void
-  onSqlEnter: () => void
 }
 
 export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
@@ -75,11 +74,7 @@ export class SqlEditor extends React.PureComponent<ISqlEditorProps> {
       lineWrapping: false,
       autoCloseBrackets: true,
       matchBrackets: true,
-      foldGutter: true,
-      extraKeys: {
-        'Cmd-Enter': () => { this.props.onSqlEnter() },
-        'Ctrl-Enter': () => { this.props.onSqlEnter() }
-      }
+      foldGutter: true
     }
     this.sqlEditor = fromTextArea(this.sqlEditorContainer.current, config)
     this.sqlEditor.doc.setValue(value)

@@ -6,6 +6,8 @@ export function getColumnIconByType (type: string) {
     case 'geoCountry':
     case 'geoProvince':
     case 'geoCity': return 'icon-map'
+    case 'geoArea': return 'icon-map'
+    case 'geoStreet': return 'icon-map'
     default: return 'icon-categories'
   }
 }

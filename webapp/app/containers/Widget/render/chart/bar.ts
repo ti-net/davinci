@@ -163,6 +163,7 @@ export default function (chartProps: IChartProps, drillOptions) {
           id: `${m.name}${DEFAULT_SPLITER}${DEFAULT_SPLITER}${k}`,
           name: `${k}${metrics.length > 1 ? ` ${m.displayName}` : ''}`,
           type: 'bar',
+        //   type: 'bar3D',
           ...stackOption,
           sampling: 'average',
           data: v.map((g, index) => {
@@ -223,6 +224,7 @@ export default function (chartProps: IChartProps, drillOptions) {
         id: m.name,
         name: m.displayName,
         type: 'bar',
+        // type: 'bar3D',
         ...stackOption,
         sampling: 'average',
         data: data.map((d, index) => {
@@ -322,6 +324,7 @@ export default function (chartProps: IChartProps, drillOptions) {
       acc[stackName] = {
         name: stackName,
         type: 'bar',
+        // type: 'bar3D',
         stack: stackName,
         label: {
           normal: {
@@ -462,6 +465,11 @@ export default function (chartProps: IChartProps, drillOptions) {
   return {
     xAxis: barChart ? metricAxisOption : dimetionAxisOption,
     yAxis: barChart ? dimetionAxisOption : metricAxisOption,
+    // echarts-gl 3D
+    // grid3D: {},
+    // xAxis3D: {},
+    // yAxis3D: {},
+    // zAxis3D: {},
     series,
     tooltip: {
       formatter: getChartTooltipLabel('bar', seriesData, {

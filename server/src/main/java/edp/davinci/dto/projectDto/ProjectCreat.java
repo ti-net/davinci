@@ -19,6 +19,8 @@
 
 package edp.davinci.dto.projectDto;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
@@ -40,4 +42,7 @@ public class ProjectCreat {
     private String pic;
 
     private boolean visibility;
+
+    private JSONObject config = JSON.parseObject("{\"watermark\": {\"isProject\": true,\"isUsername\": true, \"color\": \"#e1e1e1\", \"enable\": true, \"dateFormat\": \"yyyy-MM-dd hh:mm:ss\"}}");
+
 }

@@ -99,6 +99,14 @@
         50% { transform: scale(1, 1); }
         100% { transform: scale(0, 0); }
       }
+
+      /* 去掉百度地图logo */
+      .BMap_cpyCtrl {
+        display: none!important;
+      }
+      .anchorBL {
+        display: none!important;
+      }
     </style>
     <script type="x-shader/x-vertex" id="vertexshader">
 			attribute float scale;
@@ -114,7 +122,8 @@
 				if ( length( gl_PointCoord - vec2( 0.5, 0.5 ) ) > 0.475 ) discard;
 				gl_FragColor = vec4( color, 1.0 );
 			}
-		</script>
+        </script>
+        <script src="http://api.map.baidu.com/api?v=2.0&ak=3YNjGbfiuFBYBa5hTNGYXBlr8ilx23o5"></script>
   </head>
   <body>
     <!-- Display a message if JS has been disabled on the browser. -->

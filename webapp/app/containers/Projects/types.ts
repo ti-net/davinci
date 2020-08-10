@@ -46,6 +46,7 @@ export interface IProject {
   orgId?: number
   visibility?: boolean
   starNum?: number
+  config?: { watermark?: any}
 }
 
 export interface IStarUser {
@@ -85,6 +86,7 @@ export interface IProjectFormFieldProps {
   description?: string
   visibility?: string
   pic?: string
+  config?: { watermark?: any}
 }
 
 export interface IProjectsFormProps {

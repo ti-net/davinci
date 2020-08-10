@@ -19,6 +19,7 @@
 
 package edp.davinci.dto.projectDto;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -34,4 +35,6 @@ public class ProjectUpdate {
     private String description;
 
     private Boolean visibility = true;
+
+    private JSONObject config;
 }

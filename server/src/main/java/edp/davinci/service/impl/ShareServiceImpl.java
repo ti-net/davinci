@@ -36,6 +36,8 @@ import edp.davinci.core.utils.CsvUtils;
 import edp.davinci.dao.*;
 import edp.davinci.dto.displayDto.MemDisplaySlideWidgetWithSlide;
 import edp.davinci.dto.projectDto.ProjectDetail;
+import edp.davinci.dto.projectDto.ProjectInfo;
+import edp.davinci.dto.projectDto.ProjectInfoShare;
 import edp.davinci.dto.projectDto.ProjectPermission;
 import edp.davinci.dto.shareDto.*;
 import edp.davinci.dto.userDto.UserLogin;
@@ -276,8 +278,14 @@ public class ShareServiceImpl implements ShareService {
             throw new NotFoundException("dashboard is not found");
         }
 
+        ProjectInfo projectInfo = projectService.getProjectInfoByDashboardId(dashboard.getId());
+
         ShareDashboard shareDashboard = new ShareDashboard();
         BeanUtils.copyProperties(dashboard, shareDashboard);
+
+        ProjectInfoShare projectInfoShare = new ProjectInfoShare();
+        BeanUtils.copyProperties(projectInfo, projectInfoShare);
+        shareDashboard.setProject(projectInfoShare);
 
         List<MemDashboardWidget> memDashboardWidgets = memDashboardWidgetMapper.getByDashboardId(dashboardId);
         shareDashboard.setRelations(memDashboardWidgets);

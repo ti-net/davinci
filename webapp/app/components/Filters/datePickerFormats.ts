@@ -3,7 +3,7 @@ export enum DatePickerFormats {
   Datetime = 'YYYY-MM-DD HH:mm:ss',
   DatetimeMinute = 'YYYY-MM-DD HH:mm',
   Month = 'YYYY-MM',
-  Week = 'YYYY-ww',
+  Week = 'YYYY-wo',
   Year = 'YYYY'
 }
 

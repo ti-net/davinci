@@ -69,7 +69,7 @@ import EditorSteps from './components/EditorSteps'
 import EditorContainer from './components/EditorContainer'
 import ModelAuth from './components/ModelAuth'
 import SourceTable from './components/SourceTable'
-import SqlEditor from './components/SqlEditorByAce'
+import SqlEditor from './components/SqlEditor'
 import SqlPreview from './components/SqlPreview'
 import EditorBottom from './components/EditorBottom'
 import ViewVariableList from './components/ViewVariableList'
@@ -385,7 +385,6 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
             onVariableChange={this.variableChange}
           >
             <SourceTable
-              key="SourceTable"
               view={editingView}
               sources={sources}
               schema={schema}
@@ -394,10 +393,9 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onDatabaseSelect={onLoadDatabaseTables}
               onTableSelect={onLoadTableColumns}
             />
-            <SqlEditor key="SqlEditor" value={editingView.sql} hints={sqlHints} onSqlChange={this.sqlChange} />
-            <SqlPreview key="SqlPreview" size="small" loading={loading.execute} response={sqlDataSource} />
+            <SqlEditor value={editingView.sql} hints={sqlHints} onSqlChange={this.sqlChange} />
+            <SqlPreview size="small" loading={loading.execute} response={sqlDataSource} />
             <EditorBottom
-              key="EditorBottom"
               sqlLimit={sqlLimit}
               loading={loading.execute}
               nextDisabled={nextDisabled}
@@ -405,9 +403,8 @@ export class ViewEditor extends React.Component<IViewEditorProps, IViewEditorSta
               onExecuteSql={this.executeSql}
               onStepChange={this.stepChange}
             />
-            <ViewVariableList key="ViewVariableList" variables={variable} />
+            <ViewVariableList variables={variable} />
             <VariableModal
-              key="VariableModal"
               channels={channels}
               tenants={tenants}
               bizs={bizs}

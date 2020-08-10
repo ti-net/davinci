@@ -35,6 +35,8 @@ public interface ProjectService extends CheckEntityService {
 
     ProjectInfo getProjectInfo(Long id, User user);
 
+    ProjectInfo getProjectInfoByDashboardId(Long dashboardId);
+
     List<ProjectInfo> getProjects(User user) throws ServerException;
 
     ProjectInfo createProject(ProjectCreat projectCreat, User user) throws ServerException, UnAuthorizedExecption, NotFoundException;

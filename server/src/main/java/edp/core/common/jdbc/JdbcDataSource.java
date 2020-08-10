@@ -48,7 +48,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.druid.pool.DruidDataSource;
-// import com.alibaba.druid.pool.ElasticSearchDruidDataSourceFactory;
 import com.alibaba.druid.util.StringUtils;
 
 import edp.core.consts.Consts;
@@ -118,8 +117,7 @@ public class JdbcDataSource {
             }
 
             try {
-            	// druidDataSource = (DruidDataSource)ElasticSearchDruidDataSourceFactory.createDataSource(properties);
-                druidDataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties);
+            	druidDataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties);
             	dataSourceMap.put(key, druidDataSource);
             } catch (Exception e) {
                 log.error("Exception during pool initialization", e);

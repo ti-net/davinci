@@ -24,7 +24,7 @@ export const envName = {
 }
 
 export const env = envName.production
-// const host = 'http://172.16.203.150:58081'
+
 export default {
   dev: {
     host: '/api/v3',

@@ -21,7 +21,6 @@
 import ChartTypes from './ChartTypes'
 
 import { IChartInfo } from 'containers/Widget/components/Widget'
-import { getDefaultContent } from 'components/RichText'
 
 const richText: IChartInfo = {
   id: ChartTypes.RichText,
@@ -50,7 +49,7 @@ const richText: IChartInfo = {
   },
   style: {
     richText: {
-      content: getDefaultContent()
+      content: ''
     },
     spec: {}
   }

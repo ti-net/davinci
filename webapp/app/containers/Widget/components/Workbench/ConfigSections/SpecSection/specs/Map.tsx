@@ -3,7 +3,7 @@ import { Row, Col, Checkbox, Select, InputNumber } from 'antd'
 
 import { onSectionChange } from './util'
 import { ISpecConfig } from '../types'
-import { chartLayerTypeOptions, chartSymbolTypeOptions } from '../../constants'
+import { chartLayerTypeOptions, chartSymbolTypeOptions, chartMapinfoOptions } from '../../constants'
 
 import styles from '../../../Workbench.less'
 
@@ -16,7 +16,7 @@ interface ISpecSectionMapProps {
 
 function SpecSectionMap (props: ISpecSectionMapProps) {
   const { spec, isLegendSection, title, onChange } = props
-  const { roam, layerType, linesSpeed, symbolType } = spec
+  const { roam, layerType, linesSpeed, symbolType, mapinfo, is3D } = spec
 
   return (
     <div className={styles.paneBlock}>
@@ -28,7 +28,12 @@ function SpecSectionMap (props: ISpecSectionMapProps) {
               移动&缩放
             </Checkbox>
           </Col>
-          <Col span={4}>类型</Col>
+          <Col span={10}>
+            <Checkbox checked={is3D} onChange={onSectionChange(onChange, 'is3D')}>
+              开启3D
+            </Checkbox>
+          </Col>
+          {/* <Col span={4}>类型</Col>
           <Col span={10}>
             <Select
               placeholder="类型"
@@ -37,6 +42,19 @@ function SpecSectionMap (props: ISpecSectionMapProps) {
               onChange={onSectionChange(onChange, 'layerType')}
             >
               {chartLayerTypeOptions}
+            </Select>
+          </Col> */}
+        </Row>
+        <Row>
+          <Col span={4}>地图</Col>
+          <Col span={10}>
+            <Select
+              placeholder="地图"
+              className={styles.blockElm}
+              value={mapinfo}
+              onChange={onSectionChange(onChange, 'mapinfo')}
+            >
+              {chartMapinfoOptions}
             </Select>
           </Col>
         </Row>

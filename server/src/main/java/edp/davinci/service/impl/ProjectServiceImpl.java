@@ -136,6 +136,14 @@ public class ProjectServiceImpl extends BaseEntityService implements ProjectServ
         return projectInfo;
     }
 
+    @Override
+    public ProjectInfo getProjectInfoByDashboardId(Long dashboardId) {
+        ProjectDetail projectDetail = projectMapper.getProjectDetailByDashboardId(dashboardId);
+        ProjectInfo projectInfo = new ProjectInfo();
+        BeanUtils.copyProperties(projectDetail, projectInfo);
+        return projectInfo;
+    }
+
     /**
      * 获取项目列表
      *
@@ -390,6 +398,7 @@ public class ProjectServiceImpl extends BaseEntityService implements ProjectServ
 
 			project.setName(projectUpdate.getName());
 	        project.setDescription(projectUpdate.getDescription());
+            project.setConfig(projectUpdate.getConfig());
 	        project.setVisibility(projectUpdate.getVisibility());
 	        project.setUpdateTime(new Date());
 	        project.setUpdateBy(user.getId());

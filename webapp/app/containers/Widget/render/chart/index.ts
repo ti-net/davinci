@@ -25,6 +25,7 @@ import pie from './pie'
 import area from './area'
 import funnel from './funnel'
 import map from './map'
+import bmap from './bmap'
 import radar from './radar'
 import sankey from './sankey'
 import parallel from './parallel'
@@ -46,7 +47,8 @@ export default function (type, chartProps: IChartProps, drillOptions?: any): ECh
     case 'radar': return radar(chartProps)
     case 'sankey': return sankey(chartProps)
     case 'parallel': return parallel(chartProps)
-    case 'map': return map(chartProps)
+    case 'map': return map(chartProps, drillOptions)
+    case 'bmap': return bmap(chartProps)
     case 'wordCloud': return wordCloud(chartProps)
     case 'waterfall': return waterfall(chartProps)
     case 'doubleYAxis': return doubleYAxis(chartProps, drillOptions)

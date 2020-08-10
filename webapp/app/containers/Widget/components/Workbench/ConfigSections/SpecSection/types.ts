@@ -11,7 +11,16 @@ export interface ISpecConfig {
   gapNumber?: number
   shape?: 'polygon' | 'circle'
   roam?: boolean
+  is3D?: boolean
   layerType?: string
+  effectType?: string
+  bubbleType?: string
+  bubbleValue: number
+  lonValue: number
+  latValue: number
+  zoomValue: number
+  themeType: string
+  mapinfo?: string
   linesSpeed: number
   symbolType: string
   layout?: 'horizontal' | 'vertical'

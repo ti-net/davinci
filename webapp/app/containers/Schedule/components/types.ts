@@ -19,7 +19,6 @@
  */
 
 import { IScheduleVizConfigItem } from './ScheduleVizConfig/types'
-import { RichTextNode } from 'components/RichText'
 
 export * from './ScheduleVizConfig/types'
 export type JobStatus = 'new' | 'failed' | 'started' | 'stopped'
@@ -52,7 +51,7 @@ export interface IScheduleRaw extends IScheduleBase {
 
 export interface IScheduleMailConfig {
   subject: string
-  content: string | RichTextNode[]
+  content: string
   to: string
   cc: string
   bcc: string

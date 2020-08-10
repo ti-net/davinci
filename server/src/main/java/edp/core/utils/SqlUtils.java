@@ -1,5 +1,6 @@
 /*
  * <<
+ *  Davinci
  *  ==
  *  Copyright (C) 2016 - 2019 EDP
  *  ==
@@ -30,7 +31,6 @@ import edp.core.model.*;
 import edp.davinci.core.enums.LogNameEnum;
 import edp.davinci.core.enums.SqlColumnEnum;
 import edp.davinci.core.utils.SqlParseUtils;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.expression.Alias;
@@ -87,7 +87,6 @@ public class SqlUtils {
 
     private JdbcSourceInfo jdbcSourceInfo;
 
-    @Getter
     private DataTypeEnum dataTypeEnum;
 
     private SourceUtils sourceUtils;
@@ -192,12 +191,6 @@ public class SqlUtils {
             }
             
             jdbcTemplate.setMaxRows(resultLimit);
-
-            // special for mysql
-            if(getDataTypeEnum() == DataTypeEnum.MYSQL) {
-            	jdbcTemplate.setFetchSize(Integer.MIN_VALUE);
-            }
-
             getResultForPaginate(sql, paginateWithQueryColumns, jdbcTemplate, excludeColumns, -1);
             paginateWithQueryColumns.setPageNo(1);
             int size = paginateWithQueryColumns.getResultList().size();
@@ -657,7 +650,7 @@ public class SqlUtils {
         }
         DataSource dataSource = sourceUtils.getDataSource(this.jdbcSourceInfo);
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTemplate.setFetchSize(500);
+        jdbcTemplate.setFetchSize(1000);
         return jdbcTemplate;
     }
     

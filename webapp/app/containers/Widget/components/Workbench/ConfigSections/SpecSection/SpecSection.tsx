@@ -6,6 +6,7 @@ import {
   PieSection,
   FunnelSection,
   MapSection,
+  BmapSection,
   ParallelSection,
   SankeySection,
   DoubleYAxisSection
@@ -44,6 +45,9 @@ export class SpecSection extends React.PureComponent<ISpecSectionProps, {}> {
         break
       case 'map':
         renderHtml = <MapSection spec={config} title={title} isLegendSection={isLegendSection} onChange={this.specChange} />
+        break
+      case 'bmap':
+        renderHtml = <BmapSection spec={config} title={title} onChange={this.specChange} />
         break
       case 'parallel':
         renderHtml = <ParallelSection spec={config} title={title} onChange={this.specChange}/>

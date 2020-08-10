@@ -36,6 +36,7 @@ module.exports = options => ({
       },
       {
         test: /\.js$/, // Transform all .js files required somewhere with Babel
+        exclude: /node_modules(?!\/quill-image-drop-module|quill-image-resize-module)/,
         use: 'happypack/loader?id=js'
       },
       {
@@ -118,28 +119,28 @@ module.exports = options => ({
               limit: 10 * 1024
             }
           },
-          // {
-          //   loader: 'image-webpack-loader',
-          //   options: {
-          //     mozjpeg: {
-          //       enabled: false
-          //       // NOTE: mozjpeg is disabled as it causes errors in some Linux environments
-          //       // Try enabling it in your environment by switching the config to:
-          //       // enabled: true,
-          //       // progressive: true,
-          //     },
-          //     gifsicle: {
-          //       interlaced: false
-          //     },
-          //     optipng: {
-          //       optimizationLevel: 7
-          //     },
-          //     pngquant: {
-          //       quality: [0.3, 0.9],
-          //       speed: 4
-          //     }
-          //   }
-          // }
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                enabled: false
+                // NOTE: mozjpeg is disabled as it causes errors in some Linux environments
+                // Try enabling it in your environment by switching the config to:
+                // enabled: true,
+                // progressive: true,
+              },
+              gifsicle: {
+                interlaced: false
+              },
+              optipng: {
+                optimizationLevel: 7
+              },
+              pngquant: {
+                quality: '65-90',
+                speed: 4
+              }
+            }
+          }
         ]
       },
       {
@@ -173,6 +174,9 @@ module.exports = options => ({
           regExp: /^\.\/\w+/,
           request: '../../locale', // resolved relatively
       });
+    }),
+    new webpack.ProvidePlugin({
+      'window.Quill': 'quill'
     }),
     new HappyPack({
       id: 'typescript',

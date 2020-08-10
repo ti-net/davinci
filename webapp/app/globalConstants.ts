@@ -148,6 +148,38 @@ export const CHART_LAYER_TYPES = [
   { name: '飞行图', value: 'lines' }
 ]
 
+export const CHART_BMAP_SCALE = [
+    { name: '固定值', value: 'fixed' },
+    { name: '系统推荐', value: 'system' },
+    { name: '放大x倍', value: 'enlarge' },
+    { name: '缩小x倍', value: 'reduce' }
+]
+
+export const CHART_BMAP_EFFECTTYPE = [
+    { name: '气泡', value: 'scatter' },
+    { name: '水波', value: 'effectScatter' },
+    { name: '雨滴', value: 'raindrop' },
+    { name: '热力图', value: 'heatmap' }
+]
+
+export const CHART_BMAP_THEMETYPE = [
+    { name: '默认主题', value: 'default' },
+    { name: '自然绿', value: 'naturalGreen' },
+    { name: '极简风', value: 'simpleWind' },
+    { name: '黑夜风', value: 'nightWind' },
+    { name: '午夜蓝', value: 'midnightBlue' }
+]
+
+export const CHART_MAPINFO = [
+    { name: '中国', value: '0' },
+    { name: '北京', value: '11' },
+    { name: '山东', value: '37' },
+    { name: '济南', value: '3701' },
+    { name: '历下区', value: '370102' },
+    { name: '河北', value: '42' },
+    { name: '河南', value: '41' }
+]
+
 export const CHART_LINES_SYMBOL_TYPE = [
   {name: '圆形', value: 'circle'},
   {name: '矩形', value: 'rect'},

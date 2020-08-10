@@ -30,7 +30,6 @@ export const LOGIN_ERROR = 'davinci/App/LOGIN_ERROR'
 export const ACTIVE = 'davinci/App/ACTIVE'
 export const ACTIVE_SUCCESS = 'davinci/App/ACTIVE_SUCCESS'
 export const ACTIVE_ERROR = 'davinci/App/ACTIVE_ERROR'
-export const GET_USER_INFO = 'davinci/App/GET_USER_INFO'
 
 export const JOIN_ORGANIZATION = 'davinci/App/JOIN_ORGANIZATION'
 export const JOIN_ORGANIZATION_SUCCESS = 'davinci/App/JOIN_ORGANIZATION_SUCCESS'

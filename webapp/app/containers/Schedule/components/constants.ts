@@ -20,7 +20,6 @@
 
 import { FormItemProps } from 'antd/lib/form'
 import { SchedulePeriodUnit } from './types'
-import { getDefaultContent } from 'app/components/RichText'
 
 export const DefaultSchedulePeriodExpression: {
   [key in SchedulePeriodUnit]: string
@@ -46,9 +45,7 @@ export const DefaultSchedulePeriodExpression: {
 
 export const DefaultMailImageWidth = 1920
 
-export const DefaultEmailContent = getDefaultContent(
-  'This email comes from cron job on the Davinci.'
-)
+export const DefaultEmailContent = 'This email comes from cron job on the Davinci.'
 
 export const FormItemStyle: Partial<FormItemProps> = {
   labelCol: { xl: 8, lg: 10, md: 14, sm: 8 },

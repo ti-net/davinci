@@ -26,12 +26,11 @@ import { Route, HashRouter as Router, Switch, Redirect, withRouter } from 'react
 import { RouteComponentWithParams } from 'utils/types'
 
 import { compose } from 'redux'
-import { logged, logout, getLoginUser, getUserInfo} from './actions'
+import { logged, logout, getLoginUser } from './actions'
 import injectSaga from 'utils/injectSaga'
 import saga from './sagas'
 
 import { makeSelectLogged } from './selectors'
-import { login } from '../App/actions'
 
 import checkLogin from 'utils/checkLogin'
 import { setToken } from 'utils/request'
@@ -49,8 +48,6 @@ interface IAppDispatchProps {
   onLogged: (user) => void
   onLogout: () => void
   onGetLoginUser: (resolve: () => void) => any
-  onLogin: (username: string, password: string, resolve: () => any) => any,
-  onGetUserInfo: (token: string, id: string, resolve: (res: any) => any) => void
 }
 
 type AppProps = IAppStateProps & IAppDispatchProps & RouteComponentWithParams
@@ -59,24 +56,7 @@ export class App extends React.PureComponent<AppProps> {
 
   constructor (props: AppProps) {
     super(props)
-    const qs = this.getQs();
-    const { onGetUserInfo } = this.props;  //??
-    if(qs && qs['token'] && qs['bi_user_id']) {
-      const token = qs['token'];
-      const id = qs['bi_user_id'];
-      // this.getUserInfo(token, id);
-      onGetUserInfo(token, id, (res)=>{
-        console.log('res: ' + JSON.stringify(res));
-        const loginUser = res.payload;
-        const token = res.header.token;
-        setToken(token);
-        this.props.onLogged(loginUser);
-        statistic.sendPrevDurationRecord();
-      });
-    } else {
-      this.props.onLogout()
-    }
-    // this.checkTokenLink()
+    this.checkTokenLink()
   }
 
   private getQs = () => {
@@ -94,23 +74,6 @@ export class App extends React.PureComponent<AppProps> {
       return false
     }
   }
-
-  // private getUserInfo = (token, id) => {
-  //   const url = "http://localhost:8081/api/v3/tinet/getUserById/" + id;
-  //   const xhr = new XMLHttpRequest();
-  //   xhr.open('GET', url);
-  //   xhr.setRequestHeader('Authorization',token);
-  //   xhr.send();
-  //   xhr.onreadystatechange = function() {
-  //     if(xhr.readyState==4 && xhr.status==200) {
-  //       const res = JSON.parse(xhr.responseText);
-  //       const loginUser = res.payload;
-  //       setToken(res.header.token);
-  //       this.props.onLogged(loginUser);
-  //       statistic.sendPrevDurationRecord();
-  //     }
-  //   }.bind(this);
-  // }
 
   private checkTokenLink = () => {
     const {
@@ -146,7 +109,6 @@ export class App extends React.PureComponent<AppProps> {
       setToken(token)
       this.props.onLogged(JSON.parse(loginUser))
       statistic.sendPrevDurationRecord()
-      // onLogin('grant', 'As123456', ()=>{})
     } else {
       this.props.onLogout()
       // this.props.history.replace('/login')
@@ -203,9 +165,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = (dispatch) => ({
   onLogged: (user) => dispatch(logged(user)),
   onLogout: () => dispatch(logout()),
-  onGetLoginUser: (resolve) => dispatch(getLoginUser(resolve)),
-  onLogin: (username, password, resolve) => dispatch(login(username, password, resolve)),
-  onGetUserInfo: (token, id, resolve) => dispatch(getUserInfo(token, id, resolve))
+  onGetLoginUser: (resolve) => dispatch(getLoginUser(resolve))
 })
 
 const withConnect = connect(

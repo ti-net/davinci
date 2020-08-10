@@ -19,6 +19,8 @@
 
 package edp.davinci.model;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 
@@ -60,6 +62,8 @@ public class Project {
     @JSONField(serialize = false)
     @Column(name = "create_by")
     private Long createUserId;
+
+    private JSONObject config = JSON.parseObject("{\"watermark\": {\"isProject\": true,\"isUsername\": true, \"color\": \"#e1e1e1\", \"enable\": true, \"dateFormat\": \"yyyy-MM-dd hh:mm:ss\"}}");
 
     public Project() {
 
