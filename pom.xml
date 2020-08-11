@@ -24,8 +24,8 @@
     </licenses>
 
     <modules>
-        <module>assembly</module>
         <module>server</module>
+        <module>assembly</module>
     </modules>
 
     <properties>
