@@ -1,6 +1,7 @@
 logs/
 project/target/
 project/project/
+assembly/target
 target/
 build/
 *.iml

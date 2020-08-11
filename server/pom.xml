@@ -7,6 +7,7 @@
 	<groupId>edp.davinci</groupId>
 	<artifactId>davinci-server_3.01</artifactId>
 	<packaging>jar</packaging>
+	<version>0.3.1.1</version>
 
 	<parent>
 		<groupId>edp.davinci</groupId>
@@ -235,8 +236,8 @@
 			<groupId>com.amazon.opendistroforelasticsearch.client</groupId>
 			<artifactId>opendistro-sql-jdbc</artifactId>
 			<version>1.6.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/opendistro-sql-jdbc-1.6.0.0.jar</systemPath>
+			<!--<scope>system</scope>
+			<systemPath>${project.basedir}/lib/opendistro-sql-jdbc-1.6.0.0.jar</systemPath>-->
 		</dependency>
 
 		<dependency>
@@ -260,13 +261,13 @@
 			<version>${elasticsearch.version}</version>
 		</dependency>
 
-		<dependency>
+		<!--<dependency>
 			<groupId>org.elasticsearch.client</groupId>
 			<artifactId>x-pack-transport</artifactId>
+			<version>6.8.11</version>
 			<scope>system</scope>
-			<version>6.7.2</version>
 			<systemPath>${project.basedir}/lib/x-pack-transport-6.7.2.jar</systemPath>
-		</dependency>
+		</dependency>-->
 
         <dependency>
             <groupId>org.apache.kafka</groupId>
