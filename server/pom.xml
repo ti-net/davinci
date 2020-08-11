@@ -7,7 +7,6 @@
 	<groupId>edp.davinci</groupId>
 	<artifactId>davinci-server_3.01</artifactId>
 	<packaging>jar</packaging>
-	<version>0.3.1.1</version>
 
 	<parent>
 		<groupId>edp.davinci</groupId>
