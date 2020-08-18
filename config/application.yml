@@ -22,6 +22,24 @@ server:
 
   servlet:
     context-path: /
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: '*'
+  health:
+    db:
+      enabled: false
+    mail:
+      enabled: false
+    redis:
+      enabled: false
+  server:
+    port: 9090
 
   # Userd for mail and download services, can be empty, careful configuration
   # By default, 'server.address' and 'server.port' is used as the string value.
