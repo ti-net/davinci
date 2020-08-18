@@ -1,0 +1,9 @@
+postgresql:
+  name: postgresql
+  desc: postgresql
+  version:
+  driver: org.postgresql.Driver
+  keyword_prefix:
+  keyword_suffix:
+  alias_prefix: \"
+  alias_suffix: \"
