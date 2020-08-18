@@ -19,6 +19,7 @@
 
 package edp.davinci.schedule;
 
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import edp.core.consts.Consts;
 import edp.core.exception.ServerException;
 import edp.core.utils.*;
@@ -34,6 +35,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
@@ -54,6 +59,8 @@ public class SystemSchedule {
     @Autowired
     private ShareDownloadRecordMapper shareDownloadRecordMapper;
 
+    private static final ExecutorService CLEAR_TEMPDIR_THREADPOOL = new ThreadPoolExecutor(3, 3, 0L, TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<Runnable>(),new ThreadFactoryBuilder().setNameFormat("clear-tempdir-pool-%d").build());
 
     @Scheduled(cron = "0 0 1 * * *")
     public void clearTempDir() {
@@ -67,9 +74,9 @@ public class SystemSchedule {
         final String temp = fileUtils.formatFilePath(tempDir);
         final String csv = fileUtils.formatFilePath(csvDir);
 
-        new Thread(() -> FileUtils.deleteDir(new File(download))).start();
-        new Thread(() -> FileUtils.deleteDir(new File(temp))).start();
-        new Thread(() -> FileUtils.deleteDir(new File(csv))).start();
+        CLEAR_TEMPDIR_THREADPOOL.execute(() -> FileUtils.deleteDir(new File(download)));
+        CLEAR_TEMPDIR_THREADPOOL.execute(() -> FileUtils.deleteDir(new File(temp)));
+        CLEAR_TEMPDIR_THREADPOOL.execute(() -> FileUtils.deleteDir(new File(csv)));
     }
 
     @Scheduled(cron = "0 0/2 * * * *")
