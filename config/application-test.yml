@@ -19,7 +19,6 @@ server:
   protocol: http
   address: 0.0.0.0
   port: 8080
-
   servlet:
     context-path: /
 
@@ -30,9 +29,9 @@ management:
       show-details: always
   endpoints:
     web:
-      base-path: /
+      base-path: /actuator
       exposure:
-        include: '*'
+        include: "*"
   health:
     db:
       enabled: false
