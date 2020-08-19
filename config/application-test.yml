@@ -24,6 +24,7 @@ server:
     context-path: /
 
 management:
+  port: 9090
   endpoint:
     health:
       show-details: always
