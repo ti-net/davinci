@@ -40,6 +40,8 @@ management:
       enabled: false
   server:
     port: 9090
+  security:
+    enabled: false
 
   # Userd for mail and download services, can be empty, careful configuration
   # By default, 'server.address' and 'server.port' is used as the string value.
