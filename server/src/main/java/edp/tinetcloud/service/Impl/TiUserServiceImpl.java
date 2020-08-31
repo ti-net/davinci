@@ -7,6 +7,7 @@ package edp.tinetcloud.service.Impl;
  * @description: TODO
  * @date 2020-04-28 18:37
  */
+
 import edp.core.consts.Consts;
 import edp.core.enums.HttpCodeEnum;
 import edp.core.enums.MailContentTypeEnum;
@@ -18,16 +19,19 @@ import edp.davinci.core.common.ResultMap;
 import edp.davinci.core.enums.CheckEntityEnum;
 import edp.davinci.core.enums.LockType;
 import edp.davinci.core.enums.UserOrgRoleEnum;
+import edp.davinci.dao.DefaultDbMapper;
 import edp.davinci.dao.OrganizationMapper;
 import edp.davinci.dao.RelUserOrganizationMapper;
 import edp.davinci.dao.UserMapper;
 import edp.davinci.dto.organizationDto.OrganizationInfo;
-import edp.davinci.dto.userDto.*;
+import edp.davinci.dto.userDto.UserProfile;
+import edp.davinci.dto.userDto.UserRegist;
 import edp.davinci.model.Organization;
 import edp.davinci.model.RelUserOrganization;
 import edp.davinci.model.User;
 import edp.davinci.service.LdapService;
 import edp.davinci.service.impl.BaseEntityService;
+import edp.tinetcloud.dto.DefaultDb;
 import edp.tinetcloud.service.TiUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
@@ -45,6 +49,8 @@ public class TiUserServiceImpl extends BaseEntityService implements TiUserServic
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private DefaultDbMapper defaultDbMapper;
 
     @Autowired
     private OrganizationMapper organizationMapper;
@@ -110,7 +116,7 @@ public class TiUserServiceImpl extends BaseEntityService implements TiUserServic
      */
     @Override
     @Transactional
-    public User regist(UserRegist userRegist) throws ServerException {
+    public User regist(UserRegist userRegist, DefaultDb defaultDb) throws ServerException {
 
         String username = userRegist.getUsername();
         //用户名是否已经注册
@@ -155,6 +161,10 @@ public class TiUserServiceImpl extends BaseEntityService implements TiUserServic
                 // 用户激活，关联操作
                 activeUser(user);
             }
+            //添加完成之后保存下该用户下的默认数据库地址
+            defaultDb.setUserId(user.getId());
+            int insert = defaultDbMapper.insert(defaultDb);
+            log.info("insert defaultDb: {}", insert);
             return user;
         }finally {
             releaseLock(usernameLock);

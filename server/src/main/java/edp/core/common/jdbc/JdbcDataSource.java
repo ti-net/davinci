@@ -19,37 +19,9 @@
 
 package edp.core.common.jdbc;
 
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_CONNECTIONPROPERTIES;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_INITIALSIZE;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_MAXACTIVE;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_MAXWAIT;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_MINEVICTABLEIDLETIMEMILLIS;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_MINIDLE;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_PASSWORD;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_TESTONBORROW;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_TESTONRETURN;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_TESTWHILEIDLE;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_TIMEBETWEENEVICTIONRUNSMILLIS;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_URL;
-import static com.alibaba.druid.pool.DruidDataSourceFactory.PROP_USERNAME;
-import static edp.core.consts.Consts.JDBC_DATASOURCE_DEFAULT_VERSION;
-
-import java.io.File;
-import java.util.Map;
-import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import com.alibaba.druid.pool.DruidDataSourceFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.alibaba.druid.util.StringUtils;
-
 import edp.core.consts.Consts;
 import edp.core.enums.DataTypeEnum;
 import edp.core.exception.SourceException;
@@ -59,6 +31,20 @@ import edp.core.utils.CustomDataSourceUtils;
 import edp.core.utils.SourceUtils;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import static com.alibaba.druid.pool.DruidDataSourceFactory.*;
+import static edp.core.consts.Consts.JDBC_DATASOURCE_DEFAULT_VERSION;
 
 @Slf4j
 @Component
@@ -67,7 +53,8 @@ public class JdbcDataSource {
 	@Component
 	private class ESDataSource extends JdbcDataSource {
 		
-		public DruidDataSource getDataSource(JdbcSourceInfo jdbcSourceInfo) throws SourceException {
+		@Override
+        public DruidDataSource getDataSource(JdbcSourceInfo jdbcSourceInfo) throws SourceException {
 	        
 			String jdbcUrl = jdbcSourceInfo.getJdbcUrl();
 	        String username = jdbcSourceInfo.getUsername();

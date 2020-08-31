@@ -20,6 +20,8 @@ import edp.davinci.dto.userDto.UserPut;
 import edp.davinci.dto.userDto.UserRegist;
 import edp.davinci.model.User;
 import edp.davinci.service.UserService;
+import edp.tinetcloud.dto.DefaultDb;
+import edp.tinetcloud.dto.TinetUserRegist;
 import edp.tinetcloud.service.TiUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -101,7 +103,13 @@ public class TiUserController  extends BaseController {
     @ApiOperation(value = "add User")
     @PostMapping("/addUser")
     @AuthIgnore
-    public ResponseEntity addUser(@Valid @RequestBody UserRegist userRegist, HttpServletRequest request) {
+    public ResponseEntity addUser(@Valid @RequestBody TinetUserRegist tinetUserRegist, HttpServletRequest request) {
+
+        UserRegist userRegist = new UserRegist();
+        userRegist.setPassword(tinetUserRegist.getPassword());
+        userRegist.setEmail(tinetUserRegist.getEmail());
+        userRegist.setUsername(tinetUserRegist.getUsername());
+
         // if username
         String username = userRegist.getUsername();
         if ("".equals(username.trim())) {
@@ -116,7 +124,11 @@ public class TiUserController  extends BaseController {
             return ResponseEntity.status(resultMap.getCode()).body(resultMap);
         }
         // regist
-        User user = tiUserService.regist(userRegist);
+        DefaultDb defaultDb = new DefaultDb();
+        defaultDb.setDbUrl(tinetUserRegist.getDbUrl());
+        defaultDb.setDbUsername(tinetUserRegist.getDbUsername());
+        defaultDb.setDbPassword(tinetUserRegist.getPassword());
+        User user = tiUserService.regist(userRegist,defaultDb);
         Long id = user.getId();
         ResultMap resultMap = tiUserService.getUserProfile(id, user, request);
         return ResponseEntity.status(resultMap.getCode()).body(resultMap);
