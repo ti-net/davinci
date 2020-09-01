@@ -1,7 +1,8 @@
 FROM registry.cn-beijing.aliyuncs.com/rms-production/smartlink-alpine-java:1.0
 
 RUN cd / \
-    && mkdir -p /opt/davinci
+    && mkdir -p /opt/davinci/logs/sys \
+    && chmod -R a+w /opt/davinci/logs
 
 ADD ./davinci /opt/davinci
 
