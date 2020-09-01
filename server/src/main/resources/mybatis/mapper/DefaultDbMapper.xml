@@ -25,7 +25,7 @@
         <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS id
         </selectKey>
-        insert `user`
+        insert `default_db`
         <trim prefix="(" suffix=")" suffixOverrides=",">
             `user_id`,
             `db_url`,

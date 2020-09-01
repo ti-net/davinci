@@ -29,6 +29,10 @@ management:
       enabled: false
     redis:
       enabled: false
+    elasticsearch:
+      enabled: false
+    ldap:
+      enabled: false
   server:
     port: 9090
 

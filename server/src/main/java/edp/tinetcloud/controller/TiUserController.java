@@ -105,6 +105,8 @@ public class TiUserController  extends BaseController {
     @AuthIgnore
     public ResponseEntity addUser(@Valid @RequestBody TinetUserRegist tinetUserRegist, HttpServletRequest request) {
 
+        log.info("[注册账号入参]：{}",tinetUserRegist.toString());
+        
         UserRegist userRegist = new UserRegist();
         userRegist.setPassword(tinetUserRegist.getPassword());
         userRegist.setEmail(tinetUserRegist.getEmail());
