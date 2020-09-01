@@ -23,7 +23,7 @@ server:
     context-path: /
 
 management:
-  port: 54001
+  port: 9090
   endpoint:
     health:
       show-details: always
@@ -32,8 +32,19 @@ management:
       base-path: /
       exposure:
         include: "*"
+  health:
+    db:
+      enabled: false
+    mail:
+      enabled: false
+    redis:
+      enabled: false
+    elasticsearch:
+      enabled: false
+    ldap:
+      enabled: false
   server:
-    port: 54001
+    port: 9090
   security:
     enabled: false
 
@@ -74,9 +85,9 @@ spring:
 
   ## davinci datasouce config
   datasource:
-    url: jdbc:mysql://172.16.203.150:5000/davinci_new?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+    url: jdbc:mysql://39.97.217.174:3306/davinci3?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
     username: root
-    password: 123456789
+    password: root123
 #    url: jdbc:mysql://rm-2ze97c80bg1916161.mysql.rds.aliyuncs.com:3306/davinci_new?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
 #    username: davinci
 #    password: ir!MuK4GJyeBAPi#

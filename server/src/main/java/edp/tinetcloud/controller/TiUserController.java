@@ -109,7 +109,7 @@ public class TiUserController  extends BaseController {
     @PostMapping("/addUser")
     @AuthIgnore
     public ResponseEntity addUser(@Valid @RequestBody TinetUserRegist tinetUserRegist, HttpServletRequest request) {
-
+        System.out.println("[注册账号入参]：{}" + tinetUserRegist.toString());
         log.info("[注册账号入参]：{}",tinetUserRegist.toString());
         UserRegist userRegist = new UserRegist();
         userRegist.setPassword(tinetUserRegist.getPassword());
