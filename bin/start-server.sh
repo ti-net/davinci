@@ -41,8 +41,8 @@ fi
 cd $DAVINCI3_HOME
 TODAY=`date "+%Y-%m-%d"`
 LOG_PATH=$DAVINCI3_HOME/logs/sys/davinci.$TODAY.log
-# nohup java -Dfile.encoding=UTF-8 -cp $JAVA_HOME/lib/*:$DAVINCI3_HOME/lib/* edp.DavinciServerApplication > $LOG_PATH  2>&1 &
-nohup java -jar -Xms512m -Xmx512m -Xss256k /opt/davinci/lib/davinci-server_3.01-0.3.1-SNAPSHOT.jar > $LOG_PATH  2>&1 &
+nohup java -Dfile.encoding=UTF-8 -cp $JAVA_HOME/lib/*:$DAVINCI3_HOME/lib/* edp.DavinciServerApplication > $LOG_PATH  2>&1 &
+# nohup java -jar -Xms512m -Xmx512m -Xss256k /opt/davinci/lib/davinci-server_3.01-0.3.1-SNAPSHOT.jar > $LOG_PATH  2>&1 &
 
 echo "=========================================="
 echo "Starting..., press \`CRTL + C\` to exit log"
