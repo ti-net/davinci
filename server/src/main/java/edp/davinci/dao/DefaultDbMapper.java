@@ -22,6 +22,7 @@ package edp.davinci.dao;
 import edp.tinetcloud.dto.DefaultDb;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -32,4 +33,12 @@ public interface DefaultDbMapper {
     @Select({"select * from `default_db` where `user_id` = #{id}"})
     DefaultDb getByUserId(@Param("id") Long id);
 
+    @Update({
+            "update default_db",
+            "set `db_url` = #{dbUrl,jdbcType=VARCHAR},",
+            "`db_username` = #{dbUsername,jdbcType=VARCHAR},",
+            "`db_password` = #{dbPassword,jdbcType=VARCHAR}",
+            "where user_id = #{userId,jdbcType=BIGINT}"
+    })
+    int update(DefaultDb defaultDb);
 }

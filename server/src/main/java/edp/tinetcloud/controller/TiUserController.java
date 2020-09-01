@@ -7,6 +7,7 @@ package edp.tinetcloud.controller;
  * @description: TODO
  * @date 2020-04-28 18:35
  */
+
 import edp.core.annotation.AuthIgnore;
 import edp.core.annotation.CurrentUser;
 import edp.core.enums.HttpCodeEnum;
@@ -14,6 +15,7 @@ import edp.core.utils.TokenUtils;
 import edp.davinci.common.controller.BaseController;
 import edp.davinci.core.common.Constants;
 import edp.davinci.core.common.ResultMap;
+import edp.davinci.dao.DefaultDbMapper;
 import edp.davinci.dto.userDto.UserLogin;
 import edp.davinci.dto.userDto.UserLoginResult;
 import edp.davinci.dto.userDto.UserPut;
@@ -63,6 +65,9 @@ public class TiUserController  extends BaseController {
     @Autowired
     private Environment environment;
 
+    @Autowired
+    private DefaultDbMapper defaultDbMapper;
+
     /**
      * 常规登录
      *
@@ -106,7 +111,6 @@ public class TiUserController  extends BaseController {
     public ResponseEntity addUser(@Valid @RequestBody TinetUserRegist tinetUserRegist, HttpServletRequest request) {
 
         log.info("[注册账号入参]：{}",tinetUserRegist.toString());
-        
         UserRegist userRegist = new UserRegist();
         userRegist.setPassword(tinetUserRegist.getPassword());
         userRegist.setEmail(tinetUserRegist.getEmail());
@@ -118,20 +122,28 @@ public class TiUserController  extends BaseController {
             ResultMap resultMap = new ResultMap(tokenUtils).failWithToken(tokenUtils.generateToken(null)).message("no user");
             return ResponseEntity.status(resultMap.getCode()).body(resultMap);
         }
-        // check in db
-        User user1 = tiUserService.getByUsername(username);
-        if (user1 != null && user1.getId() > 0) {
-            Long id = user1.getId();
-            ResultMap resultMap = tiUserService.getUserProfile(id, user1, request);
-            return ResponseEntity.status(resultMap.getCode()).body(resultMap);
-        }
-        // regist
+        //需要存储默认数据库信息
         DefaultDb defaultDb = new DefaultDb();
         defaultDb.setDbUrl(tinetUserRegist.getDbUrl());
         defaultDb.setDbUsername(tinetUserRegist.getDbUsername());
         defaultDb.setDbPassword(tinetUserRegist.getPassword());
+        // check in db
+        User user1 = tiUserService.getByUsername(username);
+        if (user1 != null && user1.getId() > 0) {
+            Long id = user1.getId();
+            defaultDb.setUserId(id);
+            int update = defaultDbMapper.update(defaultDb);
+            log.info("update defaultDb: {}", update);
+            ResultMap resultMap = tiUserService.getUserProfile(id, user1, request);
+            return ResponseEntity.status(resultMap.getCode()).body(resultMap);
+        }
+        // regist
         User user = tiUserService.regist(userRegist,defaultDb);
         Long id = user.getId();
+        //添加完成之后保存下该用户下的默认数据库地址
+        defaultDb.setUserId(user.getId());
+        int insert = defaultDbMapper.insert(defaultDb);
+        log.info("insert defaultDb: {}", insert);
         ResultMap resultMap = tiUserService.getUserProfile(id, user, request);
         return ResponseEntity.status(resultMap.getCode()).body(resultMap);
     }

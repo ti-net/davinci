@@ -19,7 +19,6 @@ import edp.davinci.core.common.ResultMap;
 import edp.davinci.core.enums.CheckEntityEnum;
 import edp.davinci.core.enums.LockType;
 import edp.davinci.core.enums.UserOrgRoleEnum;
-import edp.davinci.dao.DefaultDbMapper;
 import edp.davinci.dao.OrganizationMapper;
 import edp.davinci.dao.RelUserOrganizationMapper;
 import edp.davinci.dao.UserMapper;
@@ -49,8 +48,6 @@ public class TiUserServiceImpl extends BaseEntityService implements TiUserServic
 
     @Autowired
     private UserMapper userMapper;
-    @Autowired
-    private DefaultDbMapper defaultDbMapper;
 
     @Autowired
     private OrganizationMapper organizationMapper;
@@ -161,10 +158,6 @@ public class TiUserServiceImpl extends BaseEntityService implements TiUserServic
                 // 用户激活，关联操作
                 activeUser(user);
             }
-            //添加完成之后保存下该用户下的默认数据库地址
-            defaultDb.setUserId(user.getId());
-            int insert = defaultDbMapper.insert(defaultDb);
-            log.info("insert defaultDb: {}", insert);
             return user;
         }finally {
             releaseLock(usernameLock);
