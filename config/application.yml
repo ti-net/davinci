@@ -74,12 +74,12 @@ spring:
 
   ## davinci datasouce config
   datasource:
-    # url: jdbc:mysql://39.97.217.174:3306/davinci3?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
-    # username: root
-    # password: root123
-    url: jdbc:mysql://rm-2ze97c80bg1916161.mysql.rds.aliyuncs.com:3306/davinci_new?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
-    username: davinci
-    password: ir!MuK4GJyeBAPi#
+    url: jdbc:mysql://172.16.203.150:5000/davinci_new?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+    username: root
+    password: 123456789
+#    url: jdbc:mysql://rm-2ze97c80bg1916161.mysql.rds.aliyuncs.com:3306/davinci_new?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+#    username: davinci
+#    password: ir!MuK4GJyeBAPi#
     driver-class-name: com.mysql.jdbc.Driver
     initial-size: 2
     min-idle: 1
