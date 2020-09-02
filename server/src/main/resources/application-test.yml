@@ -13,29 +13,6 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #  >>
-management:
-  endpoint:
-    health:
-      show-details: always
-  endpoints:
-    web:
-      base-path: /
-      exposure:
-        include: '*'
-  health:
-    db:
-      enabled: false
-    mail:
-      enabled: false
-    redis:
-      enabled: false
-    elasticsearch:
-      enabled: false
-    ldap:
-      enabled: false
-  server:
-    port: 9090
-
 file:
   userfiles-path: ${DAVINCI3_HOME}/userfiles/
   web_resources: ${DAVINCI3_HOME}/davinci-ui/
