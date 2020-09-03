@@ -28,11 +28,7 @@ import edp.core.utils.BaseLock;
 import edp.core.utils.CollectionUtils;
 import edp.core.utils.PageUtils;
 import edp.davinci.core.common.Constants;
-import edp.davinci.core.enums.CheckEntityEnum;
-import edp.davinci.core.enums.CronJobStatusEnum;
-import edp.davinci.core.enums.LogNameEnum;
-import edp.davinci.core.enums.UserOrgRoleEnum;
-import edp.davinci.core.enums.UserPermissionEnum;
+import edp.davinci.core.enums.*;
 import edp.davinci.dao.*;
 import edp.davinci.dto.organizationDto.OrganizationInfo;
 import edp.davinci.dto.projectDto.*;
@@ -42,6 +38,7 @@ import edp.davinci.model.*;
 import edp.davinci.service.DashboardService;
 import edp.davinci.service.DisplayService;
 import edp.davinci.service.ProjectService;
+import edp.tinetcloud.service.AdapterService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,6 +103,9 @@ public class ProjectServiceImpl extends BaseEntityService implements ProjectServ
 
     @Autowired
     private RelRoleViewMapper relRoleViewMapper;
+
+    @Autowired
+    private AdapterService adapterService;
 
     private static final CheckEntityEnum entity = CheckEntityEnum.PROJECT;
     
@@ -231,7 +231,7 @@ public class ProjectServiceImpl extends BaseEntityService implements ProjectServ
 	        BeanUtils.copyProperties(user, userBaseInfo);
 	        projectInfo.setCreateBy(userBaseInfo);
 	        BeanUtils.copyProperties(project, projectInfo);
-
+            adapterService.creatDefaultDb(user.getId(),project.getId());
 	        return projectInfo;
 
 		}finally {
@@ -726,7 +726,8 @@ public class ProjectServiceImpl extends BaseEntityService implements ProjectServ
 	 * @param user
 	 * @return
 	 */
-	public ProjectPermission getProjectPermission(ProjectDetail projectDetail, User user) {
+	@Override
+    public ProjectPermission getProjectPermission(ProjectDetail projectDetail, User user) {
 		if (isMaintainer(projectDetail, user)) {
 			return ProjectPermission.adminPermission();
 		}
@@ -771,6 +772,7 @@ public class ProjectServiceImpl extends BaseEntityService implements ProjectServ
      * @param user
      * @return
      */
+    @Override
     public boolean isMaintainer(ProjectDetail projectDetail, User user) {
         if (null == projectDetail || null == user) {
             return false;
