@@ -7,6 +7,7 @@ RUN cd / \
 ADD ./davinci /opt/davinci
 
 ENV DAVINCI3_HOME /opt/davinci
+ENV CLASSPATH=.:$JAVA_HOME/lib/*:$DAVINCI3_HOME/lib/*
 
 WORKDIR /opt/davinci
 
