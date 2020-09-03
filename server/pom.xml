@@ -158,6 +158,13 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.44</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.2.12</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
@@ -235,8 +242,6 @@
 			<groupId>com.amazon.opendistroforelasticsearch.client</groupId>
 			<artifactId>opendistro-sql-jdbc</artifactId>
 			<version>1.6.0.0</version>
-			<!--<scope>system</scope>
-			<systemPath>${project.basedir}/lib/opendistro-sql-jdbc-1.6.0.0.jar</systemPath>-->
 		</dependency>
 
 		<dependency>
