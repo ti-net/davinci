@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author 王大宝
@@ -28,6 +29,10 @@ public class AdapterService {
         //创建默认数据库
         log.info("创建项目之时，指定默认数据库，开始");
         DefaultDb defaultDb = defaultDbMapper.getByUserId(userId);
+        if (Objects.isNull(defaultDb)){
+            log.info("账号没有通过慧智开户，没有默认数据库信息");
+            return;
+        }
         Source source = new Source();
         source.setName("默认数据库");
         source.setDescription("企业默认数据源");
