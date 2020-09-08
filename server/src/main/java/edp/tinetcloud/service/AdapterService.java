@@ -3,14 +3,18 @@ package edp.tinetcloud.service;
 import com.alibaba.fastjson.JSONObject;
 import edp.davinci.dao.DefaultDbMapper;
 import edp.davinci.dao.SourceMapper;
+import edp.davinci.dao.TinetShowMapper;
 import edp.davinci.dto.sourceDto.SourceConfig;
 import edp.davinci.model.Source;
+import edp.davinci.model.User;
 import edp.tinetcloud.dto.DefaultDb;
+import edp.tinetcloud.dto.TinetShow;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -49,5 +53,54 @@ public class AdapterService {
         source.setCreateBy(userId);
         int insert = sourceMapper.insert(source);
         log.info("创建项目指定默认数据库，结果：{}",insert);
+    }
+
+
+    @Autowired
+    private TinetShowMapper tinetShowMapper;
+
+    /**
+     * 操作在质检端是否显示报表
+     * @param tinetShow
+     * @param user
+     */
+    public boolean operateShow(TinetShow tinetShow, User user) {
+        //判断是开启还是关闭操作，关闭就把数据库记录删掉
+        if (tinetShow.isStatus()){
+            TinetShow byshowId = tinetShowMapper.getByshowId(tinetShow.getShowId(), tinetShow.getType());
+            if (Objects.nonNull(byshowId)){
+                return true;
+            }
+            int insert = tinetShowMapper.insert(tinetShow);
+            return insert > 0;
+        }else {
+            int delete = tinetShowMapper.delete(tinetShow.getShowId(), tinetShow.getType());
+            return delete > 0;
+        }
+    }
+
+    /**
+     * 查看该报表是否显示
+     * @param id
+     * @param type
+     * @param user
+     * @return
+     */
+    public boolean showStatus(Long id, String type, User user) {
+        TinetShow byshowId = tinetShowMapper.getByshowId(id, type);
+        return Objects.nonNull(byshowId);
+    }
+
+    /**
+     * 获取用户显示大屏列表
+     * @param id
+     * @param type
+     */
+    public List<TinetShow> getShowList(Long id, String type) {
+        List<TinetShow> tinetShows = tinetShowMapper.getByUserId(id, type);
+    }
+
+    public Integer updateShow(Long id, String type, String name, User user) {
+        return tinetShowMapper.updateByShowId(id, type,name);
     }
 }
