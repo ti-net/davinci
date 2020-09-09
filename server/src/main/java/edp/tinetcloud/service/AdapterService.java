@@ -97,7 +97,7 @@ public class AdapterService {
      * @param type
      */
     public List<TinetShow> getShowList(Long id, String type) {
-        List<TinetShow> tinetShows = tinetShowMapper.getByUserId(id, type);
+        return tinetShowMapper.getByUserId(id, type);
     }
 
     public Integer updateShow(Long id, String type, String name, User user) {
