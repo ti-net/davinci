@@ -177,7 +177,7 @@ const VizPortal: React.FC<IVizPortalProps> = (props) => {
             }}
           >
             <Result
-              icon={<img src={require('assets/images/noDashboard.png')} />}
+              // icon={<img src={require('assets/images/noDashboard.png')} />}
               extra={
                 <p>
                   请

@@ -1,7 +1,7 @@
 import  React, {useState, useCallback, useMemo} from 'react'
 import * as classnames from 'classnames'
 const styles = require('./Avatar.less')
-const logo = require('assets/images/profile.png')
+// const logo = require('assets/images/profile.png')
 import { Modal } from 'antd'
 import {IAvatarProps} from './type'
 
@@ -20,7 +20,8 @@ export const Avatar: React.FC<IAvatarProps> = ({
   }, [formVisible])
 
 
-  const src = useMemo(() => path ? path : logo, [path])
+  // const src = useMemo(() => path ? path : logo, [path])
+  const src = useMemo(()=>path, [path])
 
   const itemClass =  useMemo(() => {
     return classnames({

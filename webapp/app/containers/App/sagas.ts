@@ -102,8 +102,24 @@ export function* login (action): IterableIterator<any> {
         password
       }
     })
+    // const asyncData2 = yield call(request, {
+    //   method: 'post',
+    //   url: 'hahahaahahhahhaahaha',
+    //   data: {
+    //     username,
+    //     password
+    //   }
+    // })
+    // request('adadadadadadadadadad',{
+    //   method: 'post',
+    //   data: {
+    //     username,
+    //     password
+    //   }
+    // })
 
     const loginUser = asyncData.payload
+    // const loginUser2 = asyncData2.payload
     localStorage.setItem('loginUser', JSON.stringify(loginUser))
     resolve()
   } catch (err) {

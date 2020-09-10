@@ -37,7 +37,7 @@ export function Background () {
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/joinOrganization" component={JoinOrganization} />
-        <Redirect to="/login" />
+        {/* <Redirect to="/login" /> */}
       </Switch>
     </div>
   )

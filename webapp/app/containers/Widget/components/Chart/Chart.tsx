@@ -47,35 +47,37 @@ export class Chart extends React.PureComponent<IChartProps> {
         this.instance = echarts.init(this.container, 'default')
       }
     }
+    if (chartlibs.find((cl) => cl.id === selectedChart)) {
 
-    this.instance.setOption(
-      chartOptionGenerator(
-        chartlibs.find((cl) => cl.id === selectedChart).name,
-        props,
-        {
-          instance: this.instance,
-          isDrilling,
-          getDataDrillDetail,
-          selectedItems: this.props.selectedItems
-        }
+      this.instance.setOption(
+        chartOptionGenerator(
+          chartlibs.find((cl) => cl.id === selectedChart).name,
+          props,
+          {
+            instance: this.instance,
+            isDrilling,
+            getDataDrillDetail,
+            selectedItems: this.props.selectedItems
+          }
+        )
       )
-    )
-
-    if (selectedChart === 7) {
-        this.container.oncontextmenu = () => {
-            return false
-        } // 屏蔽右键默认事件
-        // this.instance.on('contextmenu', (params) => {
-        //     this.mapReturn(params)
-        // })
     }
-    // this.instance.off('click')
-    // this.instance.on('click', (params) => {
-    //   if (selectedChart === 7) {
-    //     this.mapClick(params)
-    //   }
-    //   this.collectSelectedItems(params)
-    // })
+
+    // if (onDoInteract) {
+    //   this.instance.off('click')
+    //   this.instance.on('click', (params) => {
+    //     const isInteractiveChart = onCheckTableInteract()
+    //     if (isInteractiveChart) {
+    //       const triggerData = getTriggeringRecord(params, seriesData)
+    //       onDoInteract(triggerData)
+    //     }
+    //   })
+    // }
+
+    this.instance.off('click')
+    this.instance.on('click', (params) => {
+      this.collectSelectedItems(params)
+    })
     this.instance.resize()
   }
 

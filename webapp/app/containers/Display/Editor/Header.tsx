@@ -21,7 +21,7 @@
 import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-
+import request from 'app/utils/request'
 import widgetReducer from 'containers/Widget/reducer'
 import widgetSaga from 'containers/Widget/sagas'
 import { useInjectReducer } from 'utils/injectReducer'
@@ -49,7 +49,8 @@ import Toolbar, {
   Chart,
   OperationBar,
   Preview,
-  Share
+  Share,
+  Display
 } from '../components/Toolbar'
 import { DisplaySettingModal } from '../components/Setting'
 import SharePanel from './SharePanel'
@@ -65,7 +66,6 @@ const Header: React.FC = () => {
   const dispatch = useDispatch()
   useInjectReducer({ key: 'widget', reducer: widgetReducer })
   useInjectSaga({ key: 'widget', saga: widgetSaga })
-
   const currentDisplay = useSelector(makeSelectCurrentDisplay())
   const {
     id: currentDisplayId,
@@ -84,6 +84,9 @@ const Header: React.FC = () => {
   const { id: projectId } = useSelector(makeSelectCurrentProject())
 
   const [widgetSelectModalVisible, setWidgetSelectModalVisible] = useState(
+    false
+  )
+  const [isShow, setIsShow] = useState(
     false
   )
   const closeWidgetSelectModal = useCallback(() => {
@@ -117,8 +120,9 @@ const Header: React.FC = () => {
     AuthorizedSlide,
     AuthorizedSetting,
     AuthorizedChart,
-    AuthorizedPreview
-  ] = useProjectPermission([Slide, Setting, Chart, Preview], 'vizPermission')
+    AuthorizedPreview,
+    AuthorizedDisplay
+  ] = useProjectPermission([Slide, Setting, Chart, Preview, Display], 'vizPermission')
   const AuthorizedOperationBar = useProjectPermission(
     OperationBar,
     'vizPermission',
@@ -208,6 +212,40 @@ const Header: React.FC = () => {
     }
   }, [])
 
+  const onChange = (checked) => {
+    // this.setState({disabled: true})
+    const { id, name} = currentDisplay
+    const userId = JSON.parse(localStorage.getItem('loginUser')).id
+    const status = checked
+    const showId = id
+    const data = {
+      showId,
+      userId,
+      status,
+      name,
+      type: 'display'
+    }
+    request('/api/v3/tinet/show', {
+      method: 'post',
+      data
+    }).then(res=>{
+      setIsShow(checked)
+    })
+  }
+
+  const getStatus = (() =>{
+    const { id } = currentDisplay
+    request(`/api/v3/tinet/show/${id}/display`, {
+      method: 'get'
+    }).then(res=>{
+      // this.setState({isShow: res.payload})
+      // debugger
+      console.log(isShow)
+      setIsShow(res.payload)
+      console.log(isShow)
+    })
+  })()
+
   const history = useHistory()
   const preview = useCallback(() => {
     const location: LocationDescriptorObject = {
@@ -227,6 +265,7 @@ const Header: React.FC = () => {
   return (
     <>
       <Toolbar>
+        <AuthorizedDisplay onChange={onChange} isShow={isShow} />
         <AuthorizedSlide onAdd={addGraph} />
         <AuthorizedSetting onSetting={openDisplaySettingModal} />
         <AuthorizedChart onAdd={addGraph} />

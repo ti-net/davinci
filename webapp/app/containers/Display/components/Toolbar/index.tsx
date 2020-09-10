@@ -25,6 +25,7 @@ export { default as Chart } from './Chart'
 export { default as OperationBar } from './OperationBar'
 export { default as Preview } from './Preview'
 export { default as Share } from './Share'
+export { default as Display } from './display'
 
 import { DisplayToolbarContext } from './util'
 export const ToolbarProvider = DisplayToolbarContext.Provider

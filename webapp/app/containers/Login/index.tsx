@@ -33,12 +33,13 @@ import injectSaga from 'utils/injectSaga'
 // import reducer from '../App/reducer'
 // import saga from '../App/sagas'
 
-import { login, logged } from '../App/actions'
+import { login, logged, getLoginUser } from '../App/actions'
 import { makeSelectLoginLoading } from '../App/selectors'
 import checkLogin from 'utils/checkLogin'
 import { setToken } from 'utils/request'
 import { statistic } from 'utils/statistic/statistic.dv'
 import ExternalLogin from '../ExternalLogin'
+import request from 'utils/request'
 
 const styles = require('./Login.less')
 
@@ -46,6 +47,7 @@ interface ILoginProps {
   loginLoading: boolean
   onLogin: (username: string, password: string, resolve: () => any) => any
   onLogged: (user) => void
+  onGetLoginUser: (token: string, id: string, resolve: (res: any) => any) => any
 }
 
 interface ILoginStates {
@@ -56,14 +58,28 @@ interface ILoginStates {
 export class Login extends React.PureComponent<ILoginProps & RouteComponentProps, ILoginStates> {
   constructor (props) {
     super(props)
-    this.state = {
-      username: '',
-      password: ''
+    debugger
+    const qs = location.href.split('?')[1]
+    if (qs) {
+      const username = qs.split('=')[1]
+      this.state = {
+        username,
+        password: 'Aa123456'
+      }
+      sessionStorage.setItem('username', username)
+    } else {
+      const username = sessionStorage.getItem('username')
+      this.state = {
+        username,
+        password: 'Aa123456'
+      }
     }
+
   }
 
   public componentWillMount () {
     this.checkNormalLogin()
+      this.doLogin()
   }
 
   private checkNormalLogin = () => {
@@ -96,7 +112,7 @@ export class Login extends React.PureComponent<ILoginProps & RouteComponentProps
   private doLogin = () => {
     const { onLogin, history } = this.props
     const { username, password } = this.state
-
+    console.log(username, password)
     if (username && password) {
       onLogin(username, password, () => {
         history.replace('/')
@@ -119,7 +135,7 @@ export class Login extends React.PureComponent<ILoginProps & RouteComponentProps
     const { username, password } = this.state
     return (
       <div className={styles.window}>
-        <Helmet title="Login" />
+        {/* <Helmet title="Login" />
         <LoginForm
           username={username}
           password={password}
@@ -142,7 +158,8 @@ export class Login extends React.PureComponent<ILoginProps & RouteComponentProps
           <span>还没有账号？ </span>
           <a href="javascript:;" onClick={this.toSignUp}>注册davinci账号</a>
         </p>
-        <ExternalLogin />
+        <ExternalLogin /> */}
+        正在登陆...
       </div>
     )
   }
@@ -155,7 +172,8 @@ const mapStateToProps = createStructuredSelector({
 export function mapDispatchToProps (dispatch) {
   return {
     onLogin: (username, password, resolve) => dispatch(login(username, password, resolve)),
-    onLogged: (user) => dispatch(logged(user))
+    onLogged: (user) => dispatch(logged(user)),
+    onGetLoginUser: (resolve) => dispatch(getLoginUser(resolve)),
   }
 }
 

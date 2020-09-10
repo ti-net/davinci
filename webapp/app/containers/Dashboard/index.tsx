@@ -855,7 +855,8 @@ export class Dashboard extends React.Component<IDashboardProps & RouteComponentW
                   ? <Route path="/project/:projectId/portal/:portalId/dashboard/:dashboardId" component={Grid} />
                   : (
                     <div className={styles.noDashboard}>
-                      <img src={require('assets/images/noDashboard.png')} onClick={this.onAddItem}/>
+                      {/* <img src={require('assets/images/noDashboard.png')} onClick={this.onAddItem}/> */}
+                      <img onClick={this.onAddItem}/>
                       <p>请创建文件夹或 Dashboard</p>
                     </div>
                   )

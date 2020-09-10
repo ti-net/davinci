@@ -47,7 +47,7 @@ interface IAppStateProps {
 interface IAppDispatchProps {
   onLogged: (user) => void
   onLogout: () => void
-  onGetLoginUser: (resolve: () => void) => any
+  onGetLoginUser: (token: string, id: string, resolve: (res: any) => any) => any
 }
 
 type AppProps = IAppStateProps & IAppDispatchProps & RouteComponentWithParams
@@ -56,6 +56,21 @@ export class App extends React.PureComponent<AppProps> {
 
   constructor (props: AppProps) {
     super(props)
+    // const qs = this.getQs()
+    // const { onGetLoginUser } = this.props
+    // if (qs && qs['token'] && qs['bi_user_id']) {
+    //   const token = qs['token']
+    //   const id = qs['bi_user_id']
+    //   onGetLoginUser(token, id, (res)=>{
+    //     const loginUser = res.payload
+    //     const token = res.header.token
+    //     setToken(token)
+    //     this.props.onLogged(loginUser)
+    //     statistic.sendPrevDurationRecord()
+    //   })
+    // } else {
+    //   this.props.onLogout()
+    // }
     this.checkTokenLink()
   }
 

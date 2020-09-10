@@ -44,7 +44,6 @@ import {
 } from './types'
 import { RouteComponentWithParams } from 'utils/types'
 import { IViewBase, IFormedViews } from 'containers/View/types'
-
 import Container from 'components/Container'
 import Toolbar from './components/Toolbar'
 import DashboardItemForm from './components/DashboardItemForm'
@@ -123,6 +122,7 @@ import { ICurrentDashboard } from './'
 import { ChartTypes } from '../Widget/config/chart/ChartTypes'
 import { DownloadTypes } from '../App/types'
 import { statistic, IVizData } from 'utils/statistic/statistic.dv'
+import request from 'app/utils/request'
 const utilStyles = require('assets/less/util.less')
 const styles = require('./Dashboard.less')
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
@@ -134,6 +134,8 @@ interface IGridProps {
   formedViews: IFormedViews
   currentPortal: any
   currentProject: IProject
+  isShow: any
+  disabled: any
   currentDashboardControlParams: IGridCtrlParams
   currentDashboard: ICurrentDashboard
   currentDashboardLoading: boolean
@@ -192,6 +194,8 @@ interface IGridStates {
   globalFilterConfigVisible: boolean
   nextMenuTitle: string
   drillPathSettingVisible: boolean
+  isShow: boolean
+  disabled: boolean
 }
 
 interface IDashboardItemForm extends AntdFormType {
@@ -201,11 +205,12 @@ interface IDashboardItemForm extends AntdFormType {
 export class Grid extends React.Component<IGridProps & RouteComponentWithParams, IGridStates> {
   constructor (props) {
     super(props)
-
+    this.getStatus()
     this.state = {
       mounted: false,
       layoutInitialized: false,
-
+      isShow: false,
+      disabled: false,
       allowFullScreen: false,
       currentDataInFullScreen: {
         itemId: 0,
@@ -552,6 +557,39 @@ export class Grid extends React.Component<IGridProps & RouteComponentWithParams,
       )
     })
     this.props.onInitiateDownloadTask(currentDashboard.id, DownloadTypes.Dashboard, downloadParams)
+  }
+
+  private onChange = (checked) => {
+    this.setState({disabled: true})
+    const { currentDashboard, match} = this.props
+    const { dashboardId } = match.params
+    const userId = JSON.parse(localStorage.getItem('loginUser')).id
+    const status = checked
+    const showId = dashboardId
+    const {name} = currentDashboard
+    const data = {
+      showId,
+      userId,
+      status,
+      name,
+      type: 'dashboard'
+    }
+    request('/api/v3/tinet/show', {
+      method: 'post',
+      data
+    }).then(res=>{
+      this.setState({isShow: checked, disabled: false})
+    })
+  }
+
+  private getStatus = () =>{
+    const { currentDashboard, match} = this.props
+    const { dashboardId } = match.params
+    request(`/api/v3/tinet/show/${dashboardId}/dashboard`, {
+      method: 'get'
+    }).then(res=>{
+      this.setState({isShow: res.payload})
+    })
   }
 
   private getData = (
@@ -1515,7 +1553,8 @@ export class Grid extends React.Component<IGridProps & RouteComponentWithParams,
       interactingStatus,
       globalFilterConfigVisible,
       allowFullScreen,
-      drillPathSettingVisible
+      drillPathSettingVisible,
+      isShow
     } = this.state
     let dashboardType: number
     if (currentDashboard) {
@@ -1734,6 +1773,8 @@ export class Grid extends React.Component<IGridProps & RouteComponentWithParams,
               onToggleGlobalFilterVisibility={this.toggleGlobalFilterConfig}
               onToggleLinkageVisibility={this.toggleLinkageConfig}
               onDownloadDashboard={this.initiateDashboardDownloadTask}
+              onChange={this.onChange}
+              isShow={isShow}
             />
           </Row>
           <GlobalControlPanel

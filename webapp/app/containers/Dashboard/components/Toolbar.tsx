@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Button, Tooltip, Col, Popconfirm } from 'antd'
+import { Button, Tooltip, Col, Popconfirm, Switch } from 'antd'
 import { ButtonProps } from 'antd/lib/button/button'
 
 import { IProject } from 'containers/Projects/types'
@@ -12,6 +12,8 @@ import ShareDownloadPermission from 'containers/Account/components/checkShareDow
 const utilStyles = require('assets/less/util.less')
 
 interface IToolbarProps {
+  isShow: any
+  disabled: any
   currentProject: IProject
   currentDashboard: ICurrentDashboard
   showAddDashboardItem: () => void
@@ -19,6 +21,7 @@ interface IToolbarProps {
   onToggleLinkageVisibility: (visible: boolean) => () => void
   onToggleGlobalFilterVisibility: (visible: boolean) => () => void
   onDownloadDashboard: () => void
+  onChange: () => void
 }
 
 export class Toolbar extends React.PureComponent<IToolbarProps> {
@@ -33,7 +36,10 @@ export class Toolbar extends React.PureComponent<IToolbarProps> {
       onOpenSharePanel,
       onToggleLinkageVisibility,
       onToggleGlobalFilterVisibility,
-      onDownloadDashboard
+      onDownloadDashboard,
+      onChange,
+      isShow,
+      disabled
     } = this.props
 
     const AddButton = ModulePermission<ButtonProps>(currentProject, 'viz', true)(Button)
@@ -42,12 +48,18 @@ export class Toolbar extends React.PureComponent<IToolbarProps> {
     const LinkageButton = ModulePermission<ButtonProps>(currentProject, 'viz', false)(Button)
     const GlobalFilterButton = ModulePermission<ButtonProps>(currentProject, 'viz', false)(Button)
 
+    let showButton
     let addButton
     let shareButton
     let downloadButton
     let linkageButton
     let globalFilterButton
 
+    showButton = (
+      <Tooltip placement="bottom" title="大屏展示">
+        <Switch onChange={onChange} checked={isShow} disabled={disabled}></Switch>
+      </Tooltip>
+    )
     addButton = (
       <Tooltip placement="bottom" title="新增">
         <AddButton
@@ -106,6 +118,7 @@ export class Toolbar extends React.PureComponent<IToolbarProps> {
 
     return (
       <Col sm={12} className={utilStyles.textAlignRight}>
+        {showButton}
         {addButton}
         {shareButton}
         {downloadButton}
