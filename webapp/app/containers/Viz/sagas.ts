@@ -345,8 +345,9 @@ export function* editDashboard(action: VizActionType) {
   const { formType, dashboard, resolve } = payload
   try {
     yield call(request, {
-      method: 'put',
-      url: `/api/v3/tinet/show/${dashboard[0].id}/dashboard/${dashboard[0].name}`,
+      method: 'get',
+      url: `/api/v3/tinet/show/${dashboard[0].id}/dashboard`,
+      params: {name: dashboard[0].name}
     })
     yield put(VizActions.dashboardEdited(dashboard, formType))
     resolve(dashboard)
