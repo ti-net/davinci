@@ -31,7 +31,6 @@ import edp.davinci.model.MemDisplaySlideWidget;
 import edp.davinci.model.User;
 import edp.davinci.service.DisplayService;
 import edp.davinci.service.DisplaySlideService;
-import edp.tinetcloud.service.AdapterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -61,8 +60,6 @@ public class DisplayController extends BaseController {
 
     @Autowired
     private DisplaySlideService displaySlideService;
-    @Autowired
-    private AdapterService adapterService;
 
     /**
      * 新建display
@@ -139,7 +136,6 @@ public class DisplayController extends BaseController {
         }
 
         displayService.deleteDisplay(id, user);
-        adapterService.deleteShow(id,"display");
 
         return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request));
     }
