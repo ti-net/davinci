@@ -31,6 +31,7 @@ import edp.davinci.model.MemDashboardWidget;
 import edp.davinci.model.User;
 import edp.davinci.service.DashboardPortalService;
 import edp.davinci.service.DashboardService;
+import edp.tinetcloud.service.AdapterService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -59,6 +60,8 @@ public class DashboardController extends BaseController {
 
     @Autowired
     private DashboardService dashboardService;
+    @Autowired
+    private AdapterService adapterService;
 
     /**
      * 获取dashboardPortal列表
@@ -256,6 +259,7 @@ public class DashboardController extends BaseController {
         }
 
         dashboardPortalService.deleteDashboardPortal(id, user);
+        adapterService.deleteShow(id, "dashboard");
         return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request));
     }
 
