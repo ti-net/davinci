@@ -80,6 +80,15 @@ public class AdapterService {
     }
 
     /**
+     * 删除
+     * @param showId
+     * @param type
+     */
+    public void deleteShow(Long showId, String type) {
+        tinetShowMapper.delete(showId, type);
+    }
+
+    /**
      * 查看该报表是否显示
      * @param id
      * @param type
