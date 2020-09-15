@@ -5,8 +5,8 @@ import config, { env } from 'app/globalConfig'
 // FIXME
 // const apiHost = `${location.origin}${config[env].host}`
 // const shareHost = `${location.origin}${config[env].shareHost}`
-const apiHost = `http://172.16.203.150:58050${config[env].host}`
-const shareHost = `http://172.16.203.150:58050${config[env].shareHost}`
+const apiHost = `${location.origin}${config[env].host}`
+const shareHost = `${location.origin}${config[env].shareHost}`
 
 const styles = require('./SharePanel.less')
 
