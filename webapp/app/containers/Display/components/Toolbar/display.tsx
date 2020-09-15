@@ -36,7 +36,7 @@ const Display: React.FC<IToolbarDisplayProps> = (props) => {
   // const { onChange, isShow, disabled } = props
   const { onChange ,isShow } = props
   return (
-    <Tooltip placement="bottom" title="大屏展示111">
+    <Tooltip placement="bottom" title="大屏展示">
         {/* <Switch onChange={onChange} checked={isShow} disabled={disabled}></Switch> */}
         <Switch onChange={onChange} checked={isShow}></Switch>
     </Tooltip>

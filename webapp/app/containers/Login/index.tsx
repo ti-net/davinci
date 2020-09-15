@@ -53,25 +53,36 @@ interface ILoginProps {
 interface ILoginStates {
   username: string
   password: string
+  isJump: boolean
 }
 
 export class Login extends React.PureComponent<ILoginProps & RouteComponentProps, ILoginStates> {
   constructor (props) {
     super(props)
-    debugger
+    // debugger
     const qs = location.href.split('?')[1]
-    if (qs) {
-      const username = qs.split('=')[1]
-      this.state = {
-        username,
-        password: 'Aa123456'
+    if (qs || sessionStorage.getItem('username')) {
+      if (qs) {
+        const username = qs.split('=')[1] ? qs.split('=')[1] : ''
+        this.state = {
+          username,
+          password: 'Aa123456',
+          isJump: true
+        }
+        sessionStorage.setItem('username', username)
+      } else {
+        const username = sessionStorage.getItem('username')
+        this.state = {
+          username,
+          password: 'Aa123456',
+          isJump: true
+        }
       }
-      sessionStorage.setItem('username', username)
     } else {
-      const username = sessionStorage.getItem('username')
       this.state = {
-        username,
-        password: 'Aa123456'
+        username: '',
+        password: '',
+        isJump: false
       }
     }
 
@@ -79,7 +90,9 @@ export class Login extends React.PureComponent<ILoginProps & RouteComponentProps
 
   public componentWillMount () {
     this.checkNormalLogin()
+    if (this.state.isJump) {
       this.doLogin()
+    }
   }
 
   private checkNormalLogin = () => {
@@ -135,7 +148,7 @@ export class Login extends React.PureComponent<ILoginProps & RouteComponentProps
     const { username, password } = this.state
     return (
       <div className={styles.window}>
-        {/* <Helmet title="Login" />
+        <Helmet title="Login" />
         <LoginForm
           username={username}
           password={password}
@@ -158,7 +171,7 @@ export class Login extends React.PureComponent<ILoginProps & RouteComponentProps
           <span>还没有账号？ </span>
           <a href="javascript:;" onClick={this.toSignUp}>注册davinci账号</a>
         </p>
-        <ExternalLogin /> */}
+        <ExternalLogin />
         正在登陆...
       </div>
     )
