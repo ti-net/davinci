@@ -343,25 +343,25 @@ export function* editDashboard(action: VizActionType) {
 
   const { payload } = action
   const { formType, dashboard, resolve } = payload
-  // try {
-  //   yield call(request, {
-  //     method: 'put',
-  //     url: `${api.portal}/${dashboard[0].dashboardPortalId}/dashboards`,
-  //     data: dashboard
-  //   })
-  //   yield put(VizActions.dashboardEdited(dashboard, formType))
+  try {
+    yield call(request, {
+      method: 'put',
+      url: `/api/v3/tinet/show/${dashboard[0].id}/dashboard/${dashboard[0].name}`,
+    })
+    yield put(VizActions.dashboardEdited(dashboard, formType))
+    resolve(dashboard)
+  } catch (err) {
+    yield put(VizActions.editDashboardFail())
+    errorHandler(err)
+  }
+  // request(`/api/v3/tinet/show/${dashboard[0].id}/dashboard/${dashboard[0].name}`, {
+  //   method: 'put'
+  // }).then(res=>{
   //   resolve(dashboard)
-  // } catch (err) {
+  // }).catch(err=>{
   //   yield put(VizActions.editDashboardFail())
   //   errorHandler(err)
-  // }
-  request(`/api/v3/tinet/show/${dashboard[0].dashboardPortalId}/dashboard/${dashboard[0].name}`, {
-    method: 'put'
-  }).then(res=>{
-    resolve(dashboard)
-  }).catch(err=>{
-    errorHandler(err)
-  })
+  // })
 }
 
 export function* editCurrentDashboard(action) {
