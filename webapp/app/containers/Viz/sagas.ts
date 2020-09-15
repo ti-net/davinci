@@ -336,24 +336,32 @@ export function* addDashboard(action: VizActionType) {
 }
 
 export function* editDashboard(action: VizActionType) {
+  console.log(action)
   if (action.type !== ActionTypes.EDIT_DASHBOARD) {
     return
   }
 
   const { payload } = action
   const { formType, dashboard, resolve } = payload
-  try {
-    yield call(request, {
-      method: 'put',
-      url: `${api.portal}/${dashboard[0].dashboardPortalId}/dashboards`,
-      data: dashboard
-    })
-    yield put(VizActions.dashboardEdited(dashboard, formType))
+  // try {
+  //   yield call(request, {
+  //     method: 'put',
+  //     url: `${api.portal}/${dashboard[0].dashboardPortalId}/dashboards`,
+  //     data: dashboard
+  //   })
+  //   yield put(VizActions.dashboardEdited(dashboard, formType))
+  //   resolve(dashboard)
+  // } catch (err) {
+  //   yield put(VizActions.editDashboardFail())
+  //   errorHandler(err)
+  // }
+  request(`/api/v3/tinet/show/${dashboard[0].dashboardPortalId}/dashboard/${dashboard[0].name}`, {
+    method: 'put'
+  }).then(res=>{
     resolve(dashboard)
-  } catch (err) {
-    yield put(VizActions.editDashboardFail())
+  }).catch(err=>{
     errorHandler(err)
-  }
+  })
 }
 
 export function* editCurrentDashboard(action) {

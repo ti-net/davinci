@@ -7,7 +7,7 @@ import { Icon, Col, Button, Tooltip, Popconfirm, Modal, Row } from 'antd'
 import { IconProps } from 'antd/lib/icon'
 import AntdFormType from 'antd/lib/form/Form'
 const styles = require('../Viz.less')
-
+import request from 'app/utils/request'
 import PortalForm from './PortalForm'
 import ModulePermission from 'containers/Account/components/checkModulePermission'
 import { IProject } from 'containers/Projects/types'
@@ -61,8 +61,32 @@ export class PortalList extends React.Component<IPortalListProps, IPortalListSta
   }
 
   private delegate = (func: (...args) => void, ...args) => (e: React.MouseEvent) => {
-    func.apply(this, args)
-    e.stopPropagation()
+    console.log(args)
+    // /api/v3/dashboardPortals/6/dashboards
+    const idd = args[0]
+    let data = {}
+    request(`/api/v3/dashboardPortals/${idd}/dashboards`,{
+      method: 'get'
+    }).then(res=>{
+      const { payload } = res
+      payload.forEach((item, index)=>{
+        data = {
+          showId: item.id,
+          userId: JSON.parse(localStorage.getItem('loginUser')).id,
+          status: false,
+          type: 'dashboard'
+        }
+        request('/api/v3/tinet/show', {
+          method: 'post',
+          data
+        }).then(res=>{
+          if (index === payload.length-1) {
+            func.apply(this, args)
+            e.stopPropagation()
+          }
+        })
+      })
+    })
   }
 
   public componentWillReceiveProps (nextProps) {

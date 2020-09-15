@@ -7,7 +7,7 @@ import {compose} from 'redux'
 import { Col, Tooltip, Icon, Popconfirm, Row } from 'antd'
 import { IconProps } from 'antd/lib/icon'
 const styles = require('../Viz.less')
-
+import request from 'app/utils/request'
 import DisplayFormModal from './DisplayFormModal'
 import ModulePermission from 'containers/Account/components/checkModulePermission'
 import { IProject } from 'containers/Projects/types'
@@ -148,8 +148,20 @@ export class DisplayList extends React.PureComponent<IDisplayListProps, IDisplay
   }
 
   private delegate = (func: (...args) => void, ...args) => (e: React.MouseEvent<any>) => {
-    func.apply(this, args)
-    e.stopPropagation()
+    const id = args
+    const data = {
+      showId: id,
+      userId: JSON.parse(localStorage.getItem('loginUser')).id,
+      status: false,
+      type: 'display'
+    }
+    request('/api/v3/tinet/show', {
+      method: 'post',
+      data
+    }).then(res=>{
+      func.apply(this, args)
+      e.stopPropagation()
+    })
   }
 
   private changePermission = (scope: IExludeRoles, event) => {
@@ -220,7 +232,7 @@ export class DisplayList extends React.PureComponent<IDisplayListProps, IDisplay
                 <AdminIcon className={styles.copy} type="copy" onClick={this.showDisplayFormModal('copy', display)} />
               </Tooltip>
               <Popconfirm
-                title="确定删除？"
+                title="确定删除？66666"
                 placement="bottom"
                 onConfirm={this.delegate(onDelete, display.id)}
               >

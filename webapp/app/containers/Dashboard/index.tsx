@@ -23,7 +23,7 @@ import Helmet from 'react-helmet'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect'
 import { Route } from 'react-router-dom'
-
+import request from 'app/utils/request'
 import { compose } from 'redux'
 import injectReducer from 'utils/injectReducer'
 import injectSaga from 'utils/injectSaga'
@@ -258,7 +258,29 @@ export class Dashboard extends React.Component<IDashboardProps & RouteComponentW
       this.dashboardForm.props.form.resetFields()
     })
   }
-
+  private isDelete = () => {
+    const { formType } = this.state
+    if (formType === 'delete') {
+      this.beforeDelete()
+    } else {
+      this.onModalOk()
+    }
+  }
+  private beforeDelete = () => {
+    const id = this.dashboardForm.props.form.getFieldValue('id')
+    const data = {
+      showId: id,
+      userId: JSON.parse(localStorage.getItem('loginUser')).id,
+      status: false,
+      type: 'dashboard'
+    }
+    request('/api/v3/tinet/show', {
+      method: 'post',
+      data
+    }).then(res=>{
+      this.onModalOk()
+    })
+  }
   private onModalOk = () => {
     const { formType, checkedKeys } = this.state
 
@@ -726,7 +748,7 @@ export class Dashboard extends React.Component<IDashboardProps & RouteComponentW
         size="large"
         type="primary"
         loading={modalLoading.editing}
-        onClick={this.onModalOk}
+        onClick={this.isDelete}
       >
         {formType === 'delete' ? '确 定' : '保 存'}
       </Button>
