@@ -23,7 +23,6 @@ import edp.davinci.dao.OrganizationMapper;
 import edp.davinci.dao.RelUserOrganizationMapper;
 import edp.davinci.dao.UserMapper;
 import edp.davinci.dto.organizationDto.OrganizationInfo;
-import edp.davinci.dto.userDto.UserProfile;
 import edp.davinci.dto.userDto.UserRegist;
 import edp.davinci.model.Organization;
 import edp.davinci.model.RelUserOrganization;
@@ -31,6 +30,7 @@ import edp.davinci.model.User;
 import edp.davinci.service.LdapService;
 import edp.davinci.service.impl.BaseEntityService;
 import edp.tinetcloud.dto.DefaultDb;
+import edp.tinetcloud.dto.TinetUserProfile;
 import edp.tinetcloud.service.TiUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
@@ -247,7 +247,7 @@ public class TiUserServiceImpl extends BaseEntityService implements TiUserServic
             return resultMap.failAndRefreshToken(request).message("user not found");
         }
 
-        UserProfile userProfile = new UserProfile();
+        TinetUserProfile userProfile = new TinetUserProfile();
         BeanUtils.copyProperties(tempUser, userProfile);
         if (user ==null  || id.equals(user.getId())) {
             List<OrganizationInfo> organizationInfos = organizationMapper.getOrganizationByUser(id);
