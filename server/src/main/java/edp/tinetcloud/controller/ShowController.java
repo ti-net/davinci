@@ -116,7 +116,7 @@ public class ShowController extends BaseController {
      * @return
      */
     @ApiOperation(value = "show a display", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @GetMapping(value = "/show/{id}/{type}")
+    @GetMapping(value = "/updateShow/{id}/{type}")
     public ResponseEntity show(@PathVariable Long id, @PathVariable String type, @RequestParam String name,
                                @ApiIgnore @CurrentUser User user,
                                HttpServletRequest request) {
