@@ -292,62 +292,66 @@ export class Dashboard extends React.Component<IDashboardProps & RouteComponentW
         if (!err) {
           const { dashboards, match, history, onEditDashboard, onAddDashboard } = this.props
           const { id, name, folder, selectType, index, config } = values
+          request(`/api/v3/tinet/updateShow/${id}/dashboard`, {
+            method: 'get',
+            params: {name: name}
+          }).then(res=>{
+            const dashArr = folder === '0'
+              ? dashboards.filter((d) => d.parentId === 0)
+              : dashboards.filter((d) => d.parentId === Number(folder))
 
-          const dashArr = folder === '0'
-            ? dashboards.filter((d) => d.parentId === 0)
-            : dashboards.filter((d) => d.parentId === Number(folder))
+            const indexTemp = dashArr.length === 0 ? 0 : dashArr[dashArr.length - 1].index + 1
+            const obj = {
+              config,
+              dashboardPortalId: +match.params.portalId,
+              name,
+            // type: selectType ? 1 : 0   // todo selectType 更改位置
+              type: Number(selectType)
+            }
 
-          const indexTemp = dashArr.length === 0 ? 0 : dashArr[dashArr.length - 1].index + 1
-          const obj = {
-            config,
-            dashboardPortalId: +match.params.portalId,
-            name,
-           // type: selectType ? 1 : 0   // todo selectType 更改位置
-            type: Number(selectType)
-          }
+            const addObj = {
+              ...obj,
+              parentId: Number(folder),
+              index: indexTemp,
+              roleIds: this.state.exludeRoles.filter((role) => !role.permission).map((p) => p.id)
+            }
 
-          const addObj = {
-            ...obj,
-            parentId: Number(folder),
-            index: indexTemp,
-            roleIds: this.state.exludeRoles.filter((role) => !role.permission).map((p) => p.id)
-          }
+            const editObj = [{
+              ...obj,
+              parentId: Number(folder),
+              id,
+              index,
+              roleIds: this.state.exludeRoles.filter((role) => !role.permission).map((p) => p.id)
+            }]
 
-          const editObj = [{
-            ...obj,
-            parentId: Number(folder),
-            id,
-            index,
-            roleIds: this.state.exludeRoles.filter((role) => !role.permission).map((p) => p.id)
-          }]
+            const currentArr = dashboards.filter((d) => d.parentId === Number(folder))
+            const moveObj = [{
+              ...obj,
+              parentId: Number(folder),
+              id,
+              index: currentArr.length ? currentArr[currentArr.length - 1].index + 1 : 0
+            }]
 
-          const currentArr = dashboards.filter((d) => d.parentId === Number(folder))
-          const moveObj = [{
-            ...obj,
-            parentId: Number(folder),
-            id,
-            index: currentArr.length ? currentArr[currentArr.length - 1].index + 1 : 0
-          }]
-
-          switch (formType) {
-            case 'add':
-            // case 'copy':
-              onAddDashboard(addObj, (dashboardId) => {
-                this.hideDashboardForm()
-                this.setState({ isGrid: true })
-                const { projectId, portalId } = match.params
-                addObj.type === 0
-                  ? history.replace(`/project/${projectId}/portal/${portalId}`)
-                  : history.replace(`/project/${projectId}/portal/${portalId}/dashboard/${dashboardId}`)
-              })
-              break
-            case 'edit':
-              onEditDashboard('edit', editObj, () => { this.hideDashboardForm() })
-              break
-            case 'move':
-              onEditDashboard('move', moveObj, () => { this.hideDashboardForm() })
-              break
-          }
+            switch (formType) {
+              case 'add':
+              // case 'copy':
+                onAddDashboard(addObj, (dashboardId) => {
+                  this.hideDashboardForm()
+                  this.setState({ isGrid: true })
+                  const { projectId, portalId } = match.params
+                  addObj.type === 0
+                    ? history.replace(`/project/${projectId}/portal/${portalId}`)
+                    : history.replace(`/project/${projectId}/portal/${portalId}/dashboard/${dashboardId}`)
+                })
+                break
+              case 'edit':
+                onEditDashboard('edit', editObj, () => { this.hideDashboardForm() })
+                break
+              case 'move':
+                onEditDashboard('move', moveObj, () => { this.hideDashboardForm() })
+                break
+            }
+          })
         }
       })
     }
@@ -750,7 +754,7 @@ export class Dashboard extends React.Component<IDashboardProps & RouteComponentW
         loading={modalLoading.editing}
         onClick={this.isDelete}
       >
-        {formType === 'delete' ? '确 定' : '保 存'}
+        {formType === 'delete' ? '确 定' : '保 存'}292929
       </Button>
     )]
 

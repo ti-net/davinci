@@ -345,9 +345,9 @@ export function* editDashboard(action: VizActionType) {
   const { formType, dashboard, resolve } = payload
   try {
     yield call(request, {
-      method: 'get',
-      url: `/api/v3/tinet/updateShow/${dashboard[0].id}/dashboard`,
-      params: {name: dashboard[0].name}
+      method: 'put',
+      url: `${api.portal}/${dashboard[0].dashboardPortalId}/dashboards`,
+      data: dashboard
     })
     yield put(VizActions.dashboardEdited(dashboard, formType))
     resolve(dashboard)
@@ -355,14 +355,6 @@ export function* editDashboard(action: VizActionType) {
     yield put(VizActions.editDashboardFail())
     errorHandler(err)
   }
-  // request(`/api/v3/tinet/show/${dashboard[0].id}/dashboard/${dashboard[0].name}`, {
-  //   method: 'put'
-  // }).then(res=>{
-  //   resolve(dashboard)
-  // }).catch(err=>{
-  //   yield put(VizActions.editDashboardFail())
-  //   errorHandler(err)
-  // })
 }
 
 export function* editCurrentDashboard(action) {
