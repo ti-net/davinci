@@ -110,6 +110,11 @@ public class AdapterService {
     }
 
     public Integer updateShow(Long id, String type, String name, User user) {
+        TinetShow byshowId = tinetShowMapper.getByshowId(id, type);
+        if (Objects.isNull(byshowId)){
+            return 1;
+        }
         return tinetShowMapper.updateByShowId(id, type,name);
+
     }
 }
