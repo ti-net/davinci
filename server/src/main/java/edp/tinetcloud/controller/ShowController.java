@@ -121,6 +121,7 @@ public class ShowController extends BaseController {
                                @ApiIgnore @CurrentUser User user,
                                HttpServletRequest request) {
 
+        log.info("参数：{},{},{}",id, type, name);
         Integer integer = adapterService.updateShow(id, type, name, user);
         if (integer > 0){
             return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request).payload("操作成功"));
