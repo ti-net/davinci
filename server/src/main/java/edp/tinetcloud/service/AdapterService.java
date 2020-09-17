@@ -110,10 +110,12 @@ public class AdapterService {
     }
 
     public Integer updateShow(Long id, String type, String name, User user) {
+        log.info("参数：{},{},{}",id, type, name);
         TinetShow byshowId = tinetShowMapper.getByshowId(id, type);
         if (Objects.isNull(byshowId)){
             return 1;
         }
+        log.info("show:{}",byshowId.toString());
         return tinetShowMapper.updateByShowId(id, type,name);
 
     }

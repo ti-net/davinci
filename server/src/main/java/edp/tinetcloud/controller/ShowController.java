@@ -122,10 +122,10 @@ public class ShowController extends BaseController {
                                HttpServletRequest request) {
 
         log.info("参数：{},{},{}",id, type, name);
-//        Integer integer = adapterService.updateShow(id, type, name, user);
-//        if (integer > 0){
-//            return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request).payload("操作成功"));
-//        }
+        Integer integer = adapterService.updateShow(id, type, name, user);
+        if (integer > 0){
+            return ResponseEntity.ok(new ResultMap(tokenUtils).successAndRefreshToken(request).payload("操作成功"));
+        }
         ResultMap resultMap = new ResultMap(tokenUtils).failAndRefreshToken(request,HttpCodeEnum.SERVER_ERROR).message("操作失败");
         return ResponseEntity.status(resultMap.getCode()).body(resultMap);
     }
