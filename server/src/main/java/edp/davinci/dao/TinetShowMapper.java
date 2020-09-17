@@ -23,7 +23,6 @@ import edp.tinetcloud.dto.TinetShow;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -45,6 +44,6 @@ public interface TinetShowMapper {
     @Delete({"delete from tinet_show where `show_id` = #{id} and `type` = #{type}"})
     int delete(@Param("id") Long id, @Param("type") String type);
 
-    @Update({"update tinet_show set `name` = #{name} where `show_id` = #{id} and `type` = #{type}"})
+    //@Update({"update tinet_show set `name` = #{name} where `show_id` = #{id} and `type` = #{type}"})
     int updateByShowId(Long id, String type, String name);
 }
