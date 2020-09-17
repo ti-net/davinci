@@ -41,15 +41,15 @@
         </trim>
     </insert>
 
-    <update id="updateByShowId">
-        update tinet_show
-        <set>
-            <if test="name != null">
-                `name` = #{name}
-            </if>
-        </set>
-        where
-        `show_id` = #{id} and `type` = #{type}
-    </update>
+<!--    <update id="updateByShowId">-->
+<!--        update tinet_show-->
+<!--        <set>-->
+<!--            <if test="name != null">-->
+<!--                `name` = #{name}-->
+<!--            </if>-->
+<!--        </set>-->
+<!--        where-->
+<!--        `show_id` = #{id} and `type` = #{type}-->
+<!--    </update>-->
 
 </mapper>

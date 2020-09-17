@@ -116,7 +116,8 @@ public class AdapterService {
             return 1;
         }
         log.info("show:{}",byshowId.toString());
-        return tinetShowMapper.updateByShowId(name,id, type);
+        //return tinetShowMapper.updateByShowId(name,id, type);
+        return 1;
 
     }
 }
