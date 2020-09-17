@@ -114,7 +114,8 @@ public class AdapterService {
         if (Objects.isNull(byshowId)){
             return 1;
         }
-        return tinetShowMapper.updateByShowId(id, type,name);
+        log.info("show:{}",byshowId.toString());
+        return tinetShowMapper.updateByShowId(name,id, type);
 
     }
 }

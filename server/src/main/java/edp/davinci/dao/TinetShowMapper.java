@@ -46,5 +46,5 @@ public interface TinetShowMapper {
     int delete(@Param("id") Long id, @Param("type") String type);
 
     @Update({"update tinet_show set `name` = #{name} where `show_id` = #{id} and `type` = #{type}"})
-    int updateByShowId(Long id, String type, String name);
+    int updateByShowId(@Param("name") String name,@Param("id") Long id, @Param("type")String type);
 }
