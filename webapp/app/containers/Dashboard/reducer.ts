@@ -54,7 +54,8 @@ import {
   SET_SELECT_OPTIONS,
   SEND_CURRENT_DASHBOARD_CONTROL_PARAMS,
   OPEN_SHARE_PANEL,
-  CLOSE_SHARE_PANEL
+  CLOSE_SHARE_PANEL,
+  SET_CURRRENT_NAME
 } from './constants'
 import {
   INITIATE_DOWNLOAD_TASK,
@@ -99,7 +100,8 @@ const initialState: IDashboardState = {
   currentDashboardSelectOptions: {},
   currentItems: null,
   currentItemsInfo: null,
-  currentDashboardGlobalControlParams: null
+  currentDashboardGlobalControlParams: null,
+  currentName:''
 }
 
 const dashboardReducer = (state = initialState, action: ViewActionType | VizActionType | any) =>
@@ -136,7 +138,9 @@ const dashboardReducer = (state = initialState, action: ViewActionType | VizActi
           globalCtrlParams: params
         }
         break
-
+      case SET_CURRRENT_NAME:
+         draft.currentName = action.name
+      break
       case LOAD_DASHBOARD_DETAIL_SUCCESS:
         const { dashboardDetail } = action.payload
         const dashboardConfig = dashboardDetail.config ? JSON.parse(dashboardDetail.config) : {}

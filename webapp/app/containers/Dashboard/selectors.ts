@@ -89,7 +89,10 @@ const makeSelectCurrentLinkages = () => createSelector(
     return validLinkages
   }
 )
-
+const makeSelectCurrentName=()=>createSelector(
+  selectDashboard,
+  (dashboardState) => dashboardState.currentName
+)
 export {
   selectDashboard,
   selectForm,
@@ -104,5 +107,6 @@ export {
   makeSelectCurrentDashboardSelectOptions,
   makeSelectCurrentLinkages,
   makeSelectControlForm,
-  makeSelectCurrentDashboardControlParams
+  makeSelectCurrentDashboardControlParams,
+  makeSelectCurrentName
 }

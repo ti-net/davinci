@@ -62,7 +62,8 @@ import {
   MONITORED_LINKAGE_DATA_ACTION,
   SEND_CURRENT_DASHBOARD_CONTROL_PARAMS,
   OPEN_SHARE_PANEL,
-  CLOSE_SHARE_PANEL
+  CLOSE_SHARE_PANEL,
+  SET_CURRRENT_NAME
 } from './constants'
 
 export function addDashboardItems (portalId, items, resolve) {
@@ -432,5 +433,12 @@ export function sendCurrentDashboardControlParams (params) {
     payload: {
       params
     }
+  }
+}
+
+export function setCurrentName (name) {
+  return {
+    type: SET_CURRRENT_NAME,
+    name:name
   }
 }

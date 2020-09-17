@@ -73,7 +73,7 @@ export const SET_CONTROL_FORM_VALUES = 'davinci/Dashboard/SET_CONTROL_FORM_VALUE
 export const MONITORED_SYNC_DATA_ACTION = 'davinci/Dashboard/MONITORED_SYNC_DATA_ACTION'
 export const MONITORED_SEARCH_DATA_ACTION = 'davinci/Dashboard/MONITORED_SEARCH_DATA_ACTION'
 export const MONITORED_LINKAGE_DATA_ACTION = 'davinci/Dashboard/MONITORED_LINKAGE_DATA_ACTION'
-
+export const SET_CURRRENT_NAME="davinci/Dashboard/SET_CURRRENT_NAME"
 export enum DashboardTypes {
   Folder = 0,
   Dashboard = 1

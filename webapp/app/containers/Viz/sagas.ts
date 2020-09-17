@@ -357,6 +357,28 @@ export function* editDashboard(action: VizActionType) {
   }
 }
 
+// export function* editName(action: VizActionType) {
+//   console.log(action)
+//   if (action.type !== ActionTypes.EDIT_DASHBOARD) {
+//     return
+//   }
+
+//   const { payload } = action
+//   const { formType, dashboard, resolve } = payload
+//   try {
+//     yield call(request, {
+//       method: 'get',
+//       url: `/api/v3/tinet/update/22/dashboard`,
+//       params: {name: 'haha'}
+//     })
+//     yield put(VizActions.nameEdited(dashboard, formType))
+//     resolve(dashboard)
+//   } catch (err) {
+//     yield put(VizActions.editNameFail())
+//     errorHandler(err)
+//   }
+// }
+
 export function* editCurrentDashboard(action) {
   const { dashboard, resolve } = action.payload
   try {
@@ -554,6 +576,7 @@ export default function* rootVizSaga(): IterableIterator<any> {
 
     takeLatest(ActionTypes.ADD_DASHBOARD, addDashboard),
     takeEvery(ActionTypes.EDIT_DASHBOARD, editDashboard),
+    // takeEvery(ActionTypes.EDIT_DASHBOARD, editName),
     takeEvery(ActionTypes.EDIT_CURRENT_DASHBOARD, editCurrentDashboard),
     takeEvery(ActionTypes.DELETE_DASHBOARD, deleteDashboard),
 

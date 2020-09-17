@@ -47,7 +47,6 @@ export const UPDATE_PROFILE_SUCCESS = 'davinci/App/UPDATE_PROFILE_SUCCESS'
 export const UPDATE_PROFILE_ERROR = 'davinci/App/UPDATE_PROFILE_ERROR'
 
 export const UPLOAD_AVATAR_SUCCESS = 'davinci/App/UPLOAD_AVATAR_SUCCESS'
-
 export const CHANGE_USER_PASSWORD = 'davinci/User/CHANGE_USER_PASSWORD'
 export const CHANGE_USER_PASSWORD_SUCCESS = 'davinci/User/CHANGE_USER_PASSWORD_SUCCESS'
 export const CHANGE_USER_PASSWORD_FAILURE = 'davinci/User/CHANGE_USER_PASSWORD_FAILURE'
@@ -80,7 +79,6 @@ export const DELETE_TEAM_PROJECT = 'davinci/permission/DELETE_TEAM_PROJECT'
 export const UPDATE_TEAM_PROJECT_PERMISSION = 'davinci/permission/UPDATE_TEAM_PROJECT_PERMISSION'
 export const UPDATE_TEAM = 'davinci/permission/UPDATE_TEAM'
 export const DELETE_TEAM = 'davinci/permission/DELETE_TEAM'
-
 export const DOWNLOAD_STATUS_COLORS = {
   [DownloadStatus.Processing]: 'blue',
   [DownloadStatus.Success]: 'green',

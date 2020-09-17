@@ -342,6 +342,16 @@ export const VizActions = {
       }
     }
   },
+  // editName(formType, dashboard, resolve) {
+  //   return {
+  //     type: ActionTypes.EDIT_DASHBOARD,
+  //     payload: {
+  //       formType,
+  //       dashboard,
+  //       resolve
+  //     }
+  //   }
+  // },
   dashboardEdited(result, formType) {
     return {
       type: ActionTypes.EDIT_DASHBOARD_SUCCESS,
@@ -351,11 +361,25 @@ export const VizActions = {
       }
     }
   },
+  // nameEdited(result, formType) {
+  //   return {
+  //     type: ActionTypes.EDIT_DASHBOARD_SUCCESS,
+  //     payload: {
+  //       result,
+  //       formType
+  //     }
+  //   }
+  // },
   editDashboardFail() {
     return {
       type: ActionTypes.EDIT_DASHBOARD_FAILURE
     }
   },
+  // editNameFail() {
+  //   return {
+  //     type: ActionTypes.EDIT_DASHBOARD_FAILURE
+  //   }
+  // },
 
   editCurrentDashboard (dashboard, resolve) {
     return {

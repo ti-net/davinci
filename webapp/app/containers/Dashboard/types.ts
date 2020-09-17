@@ -128,7 +128,8 @@ export interface IDashboardState {
   currentItemsInfo: {
     [key: string]: IDashboardItemInfo
   }
-  currentDashboardGlobalControlParams: IGridCtrlParams
+  currentDashboardGlobalControlParams: IGridCtrlParams,
+  currentName:string
 }
 
 export interface IDashboardSharePanelState extends Pick<ISharePanel, 'id' | 'itemId' | 'type' | 'title'> {

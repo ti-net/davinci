@@ -55,8 +55,9 @@ import {
   checkNameUniqueAction,
   initiateDownloadTask,
   loadDownloadList,
-  downloadFile
+  downloadFile,
 } from '../App/actions'
+import {setCurrentName} from './actions'
 import { makeSelectDownloadList, makeSelectDownloadListLoading } from '../App/selectors'
 import { DownloadTypes, IDownloadRecord } from '../App/types'
 import { listToTree, findFirstLeaf } from './components/localPositionUtil'
@@ -96,6 +97,7 @@ interface IDashboardProps {
   onLoadDashboards: (portalId: number, resolve: any) => void
   onAddDashboard: (dashboard: IDashboard, resolve: any) => any
   onEditDashboard: (type: string, dashboard: IDashboard[], resolve: any) => void
+  // onEditName: (type: string, dashboard: IDashboard[], resolve: any) => void
   onDeleteDashboard: (id: number, portalId: number, resolve: any) => void
   onHideNavigator: () => void
   onCheckUniqueName: (pathname: string, data: any, resolve: () => any, reject: (error: string) => any) => any
@@ -105,7 +107,8 @@ interface IDashboardProps {
   onLoadProjectRoles: (id: number) => any
   onInitiateDownloadTask: (id: number, type: DownloadTypes, downloadParams?: any[]) => void
   onLoadDownloadList: () => void
-  onDownloadFile: (id) => void
+  onDownloadFile: (id) => void,
+  onSetCurrentName:(name)=>void
 }
 
 export interface IDashboard {
@@ -259,6 +262,7 @@ export class Dashboard extends React.Component<IDashboardProps & RouteComponentW
     })
   }
   private isDelete = () => {
+    console.log(this.state.dashboardData)
     const { formType } = this.state
     if (formType === 'delete') {
       this.beforeDelete()
@@ -292,10 +296,13 @@ export class Dashboard extends React.Component<IDashboardProps & RouteComponentW
         if (!err) {
           const { dashboards, match, history, onEditDashboard, onAddDashboard } = this.props
           const { id, name, folder, selectType, index, config } = values
-          request(`/api/v3/tinet/updateShow/${id}/dashboard`, {
+          request(`/api/v3/tinet/update/${id}/dashboard`, {
             method: 'get',
             params: {name: name}
           }).then(res=>{
+            console.log(res, this.state.dashboardData.id)
+            console.log(name, id)
+            this.props.onSetCurrentName(name)
             const dashArr = folder === '0'
               ? dashboards.filter((d) => d.parentId === 0)
               : dashboards.filter((d) => d.parentId === Number(folder))
@@ -345,7 +352,10 @@ export class Dashboard extends React.Component<IDashboardProps & RouteComponentW
                 })
                 break
               case 'edit':
-                onEditDashboard('edit', editObj, () => { this.hideDashboardForm() })
+                // onEditName('edit', editObj, () => { 
+                  // this.hideDashboardForm()
+                  onEditDashboard('edit', editObj, () => { this.hideDashboardForm() })
+                //  })
                 break
               case 'move':
                 onEditDashboard('move', moveObj, () => { this.hideDashboardForm() })
@@ -754,7 +764,7 @@ export class Dashboard extends React.Component<IDashboardProps & RouteComponentW
         loading={modalLoading.editing}
         onClick={this.isDelete}
       >
-        {formType === 'delete' ? '确 定' : '保 存'}292929
+        {formType === 'delete' ? '确 定' : '保 存'}
       </Button>
     )]
 
@@ -929,6 +939,7 @@ export function mapDispatchToProps (dispatch) {
     onLoadDashboards: (portalId, resolve) => dispatch(VizActions.loadPortalDashboards(portalId, resolve, false)),
     onAddDashboard: (dashboard, resolve) => dispatch(VizActions.addDashboard(dashboard, resolve)),
     onEditDashboard: (formType, dashboard, resolve) => dispatch(VizActions.editDashboard(formType, dashboard, resolve)),
+    // onEditName: (formType, dashboard, resolve) => dispatch(VizActions.editName(formType, dashboard, resolve)),
     onDeleteDashboard: (id, portalId, resolve) => dispatch(VizActions.deleteDashboard(id, portalId, resolve)),
     onHideNavigator: () => dispatch(hideNavigator()),
     onCheckUniqueName: (pathname, data, resolve, reject) => dispatch(checkNameUniqueAction(pathname, data, resolve, reject)),
@@ -938,7 +949,8 @@ export function mapDispatchToProps (dispatch) {
     onLoadProjectRoles: (id) => dispatch(loadProjectRoles(id)),
     onInitiateDownloadTask: (id, type, downloadParams?) => dispatch(initiateDownloadTask(id, type, downloadParams)),
     onLoadDownloadList: () => dispatch(loadDownloadList()),
-    onDownloadFile: (id) => dispatch(downloadFile(id))
+    onDownloadFile: (id) => dispatch(downloadFile(id)),
+    onSetCurrentName:(name)=>dispatch(setCurrentName(name))
   }
 }
 

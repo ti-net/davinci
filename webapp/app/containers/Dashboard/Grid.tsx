@@ -94,7 +94,8 @@ import {
   makeSelectCurrentItemsInfo,
   makeSelectCurrentDashboardSelectOptions,
   makeSelectCurrentLinkages,
-  makeSelectCurrentDashboardControlParams
+  makeSelectCurrentDashboardControlParams,
+  makeSelectCurrentName
 } from './selectors'
 import { VizActions } from 'containers/Viz/actions'
 import { makeSelectCurrentPortal, makeSelectCurrentDashboards } from 'containers/Viz/selectors'
@@ -140,6 +141,7 @@ interface IGridProps {
   currentDashboard: ICurrentDashboard
   currentDashboardLoading: boolean
   currentItems: IDashboardItem[]
+  currentName:any
   currentItemsInfo: {
     [key: string]: IDashboardItemInfo
   }
@@ -561,12 +563,12 @@ export class Grid extends React.Component<IGridProps & RouteComponentWithParams,
 
   private onChange = (checked) => {
     this.setState({disabled: true})
-    const { currentDashboard, match} = this.props
+    const { currentDashboard, match,currentName} = this.props
     const { dashboardId } = match.params
     const userId = JSON.parse(localStorage.getItem('loginUser')).id
     const status = checked
     const showId = dashboardId
-    const {name} = currentDashboard
+    const name = currentName
     const data = {
       showId,
       userId,
@@ -1901,7 +1903,8 @@ const mapStateToProps = createStructuredSelector({
   views: makeSelectViews(),
   formedViews: makeSelectFormedViews(),
   currentProject: makeSelectCurrentProject(),
-  currentDashboardControlParams: makeSelectCurrentDashboardControlParams()
+  currentDashboardControlParams: makeSelectCurrentDashboardControlParams(),
+  currentName:makeSelectCurrentName()
 })
 
 export function mapDispatchToProps (dispatch) {
