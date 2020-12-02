@@ -36,6 +36,12 @@ management:
       enabled: false
     db:
       enabled: false
+    ldap:
+      enabled: false
+    elasticsearchRest:
+      enabled: false
+    redis:
+      enabled: false
   endpoint:
     health.show-details: always
     shutdown:
