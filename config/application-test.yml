@@ -37,7 +37,7 @@ management:
       enabled: false
     ldap:
       enabled: false
-    elasticsearchRest:
+    elasticsearch:
       enabled: false
     redis:
       enabled: false
