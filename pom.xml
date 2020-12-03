@@ -6,7 +6,7 @@
 
     <groupId>edp.davinci</groupId>
     <artifactId>davinci-parent_3.01</artifactId>
-    <version>0.3.1-SNAPSHOT</version>
+    <version>0.3.1</version>
     <packaging>pom</packaging>
 
     <parent>
